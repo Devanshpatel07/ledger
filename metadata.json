@@ -1,0 +1,6 @@
+{
+  "name": "Personal Account Ledger",
+  "description": "A private, local-first personal ledger application with AI-powered smart natural language entry and native voice-to-text input.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
