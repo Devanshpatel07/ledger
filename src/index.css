@@ -1,1 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer utilities {
+  .neon-border-green {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+  }
+  .neon-border-purple {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+  }
+  .glass-card {
+    background: rgba(18, 18, 22, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .glass-card-light {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .bg-cyber-gradient {
+    background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.1), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.06), transparent 35%),
+                #09090b;
+  }
+  .bg-light-gradient {
+    background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.06), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.04), transparent 35%),
+                #f8fafc;
+  }
+}
+
+/* Slick Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}

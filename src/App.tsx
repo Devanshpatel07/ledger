@@ -35,8 +35,225 @@ import {
   CloudDownload,
   LogIn,
   LogOut,
-  Lock
+  Lock,
+  Sun,
+  Moon,
+  Languages,
+  ExternalLink
 } from 'lucide-react';
+
+const TRANSLATIONS = {
+  en: {
+    // Header
+    localSecure: "Local Secure ⚡",
+    appTitle: "Finzy Ledger",
+    viewSpecs: "View Specs",
+    hideSpecs: "Hide Specs",
+    resetData: "Reset Data",
+    
+    // Main Tabs
+    cashFlowDashboard: "Cash Flow Dashboard",
+    socialFriendDirectory: "Social Friend Directory",
+    
+    // Cloud backup stash
+    cloudBackupStash: "Cloud Backup Stash ☁️",
+    gdriveSecure: "G-Drive Secure",
+    backupStashDesc: "Backup your active split ledger & list of mates instantly to your personal secure cloud storage. Safe, private, and fully controlled by you!",
+    lastSynced: "✨ Last synced:",
+    connectGDrive: "Connect Google Drive Sync",
+    backupBtn: "Backup",
+    restoreBtn: "Restore",
+    wipeBackupBtn: "Wipe Backup",
+    
+    // Stats Bento
+    netWalletPosition: "Net Wallet Position ⚡",
+    surplus: "Surplus",
+    deficit: "Deficit",
+    aggregateDesc: "Aggregate balance calculated automatically across all active friends",
+    totalMoneyIn: "Total Money In 🟢",
+    moneyInflow: "Money Inflow",
+    moneyInflowDesc: "Cumulative cash balance details and received splits",
+    totalMoneyOut: "Total Money Out 🔴",
+    outflowSum: "Outflow Sum",
+    moneyOutflowDesc: "Splits lent or daily outlays tracked for food/living/entertainment",
+    
+    // AI Assistant Split injector
+    aiSplitAssistant: "AI Split assistant & receipt scanner",
+    aiAssistantDesc: "Type list items, dictate voice entries, or upload paper receipts to register split transactions chronologically with friends instantly.",
+    casualTextBtn: "Casual Text or Voice Speech",
+    multimodalBtn: "Multimodal Paper scan ocr",
+    speakPrompt: "Listening actively... Speak now 🎙️",
+    
+    // Where does my money go?
+    whereMoneyGo: "Where does my money go? 💸",
+    noSpendLogged: "No spend records logged yet. Try typing a coffee or dining transaction in the active split box above first!",
+    showingCategoryOutlay: "* Showing category outlay distributions of",
+    
+    // Active Wallet Check
+    activeWalletCheck: "Active Wallet Check ⚡",
+    moneyInflowEvents: "Money Inflow Events",
+    moneyOutflowEvents: "Money Outflow Events",
+    localSyncVault: "Local sync vault",
+    privacyLock: "Privacy Lock",
+    clientSideOnly: "✔ 100% Client-Side",
+    
+    // History Ledger Log
+    splitHistoryLedger: "Split History Ledger 📂",
+    showingRecordStats: "Showing {filtered} of {total} secure local records",
+    searchLogsPlaceholder: "Search logs...",
+    allTypes: "All Types",
+    creditsOnly: "Credits Only",
+    debitsOnly: "Debits Only",
+    allCategories: "All Categories",
+    noRecordsFilter: "No records found matching your filters",
+    noRecordsFilterDesc: "Try adjusting your filters or typing a fresh split statement above.",
+    confirmedLocal: "✔ Verified",
+    deleteSplitRecord: "Delete split record",
+    
+    // Social Mates tab
+    activeMates: "Social mates & portfolios",
+    matesDesc: "Initialize profile portfolios for your flatmates, dining buddies, or travel groups to see net balances at a glance.",
+    searchMatesPlaceholder: "Search mates...",
+    mateNamePlaceholder: "Mate's name...",
+    addMateBtn: "Add Mate",
+    outstandingLabel: "Outstanding:",
+    depositedLabel: "Deposited:",
+    clearedLabel: "Cleared:",
+    viewLedgerBtn: "View Ledger Page →",
+    activeStatus: "Active",
+    noPortfoliosMatch: "No personal portfolios match your search",
+    noPortfoliosMatchDesc: "Add a profile name in the input box above to launch a new ledger page automatically.",
+    
+    // Ledger Page detail
+    ledgerStanding: "Ledger Position standing",
+    repaymentPending: "Pending repayment",
+    debtPending: "Pending debt",
+    clearedMutual: "Completely Cleared",
+    owesYou: "{person} owes you this outstanding split amount.",
+    youOwe: "You owe this outstanding split amount to {person}.",
+    allSettled: "Awesome! All mutual accounts are settled perfectly.",
+    myOutlays: "My outlays (Debits)",
+    moneyLentOn: "Total money lent or spent on {person}",
+    outlaysRegistered: "{count} outlays registered",
+    repaymentsCredits: "Repayments (Credits)",
+    repaymentsCleared: "Repayments cleared or income from them",
+    settlementsRegistered: "{count} settlements registered",
+    aiSplitAssistantFor: "AI Split Assistant for {person}",
+    aiSplitAssistantPersonDesc: "Input casual comments specifically for {person}. The assistant will automatically associate the contact and split category.",
+    inputPlaceholder: "e.g. Lent 400 for movie (Will force party association with {person})",
+    submitRecord: "Add transaction record",
+    goBackBtn: "Go back to directory ←",
+    recentTransactionsWith: "Transactions Ledger with {person}",
+    searchHistoryPlaceholder: "Search ledger...",
+    deleteContactBtn: "Delete profile directory",
+    deleteContactTitle: "Delete this entire contact profile and all histories from this directory"
+  },
+  hi: {
+    // Header
+    localSecure: "लोकल सुरक्षित ⚡",
+    appTitle: "Finzy लेजर",
+    viewSpecs: "विवरण देखें",
+    hideSpecs: "विवरण छुपाएं",
+    resetData: "रीसेट करें",
+    
+    // Main Tabs
+    cashFlowDashboard: "कैश फ्लो डैशबोर्ड",
+    socialFriendDirectory: "मित्र निर्देशिका 👥",
+    
+    // Cloud backup stash
+    cloudBackupStash: "क्लाउड बैकअप संग्रह ☁️",
+    gdriveSecure: "जी-ड्राइव सुरक्षित",
+    backupStashDesc: "अपने सक्रिय स्प्लिट लेजर और दोस्तों की सूची को तुरंत अपने सुरक्षित क्लाउड स्टोरेज में बैकअप लें। सुरक्षित, निजी और पूरी तरह से आपके नियंत्रण में!",
+    lastSynced: "✨ अंतिम सिंक समय:",
+    connectGDrive: "गूगल ड्राइव सिंक जोड़ें",
+    backupBtn: "बैकअप लें",
+    restoreBtn: "रीस्टोर",
+    wipeBackupBtn: "बैकअप मिटाएं",
+    
+    // Stats Bento
+    netWalletPosition: "कुल वॉलेट स्थिति ⚡",
+    surplus: "बचत (Surplus)",
+    deficit: "घाटा (Deficit)",
+    aggregateDesc: "सभी सक्रिय मित्रों में स्वचालित रूप से कुल शेष राशि",
+    totalMoneyIn: "कुल जमा (In) 🟢",
+    moneyInflow: "कैश आवक",
+    moneyInflowDesc: "कुल प्राप्त पैसा और साझा खर्चों का ब्यौरा",
+    totalMoneyOut: "कुल खर्च (Out) 🔴",
+    outflowSum: "कैश निकासी",
+    moneyOutflowDesc: "भोजन, रहने और मनोरंजन के लिए दिए गए पैसे",
+    
+    // AI Assistant Split injector
+    aiSplitAssistant: "AI स्प्लिट असिस्टेंट और रसीद स्कैनर",
+    aiAssistantDesc: "स्प्लिट लेन-देन को अपने दोस्तों के साथ तुरंत दर्ज करने के लिए टाइप करें, बोलें या रसीद अपलोड करें।",
+    casualTextBtn: "सामान्य टेक्स्ट या आवाज",
+    multimodalBtn: "पेपर स्कैन OCR 📄",
+    speakPrompt: "सक्रिय रूप से सुन रहे हैं... अब बोलें 🎙️",
+    
+    // Where does my money go?
+    whereMoneyGo: "मेरा पैसा कहाँ खर्च होता है? 💸",
+    noSpendLogged: "अभी तक कोई खर्च रिकॉर्ड नहीं किया गया है। ऊपर दिए गए स्प्लिट बॉक्स में चाय या खाने का लेन-देन दर्ज करें!",
+    showingCategoryOutlay: "* निम्नलिखित श्रेणियों में कुल वितरण दर्शाया गया है: ",
+    
+    // Active Wallet Check
+    activeWalletCheck: "सक्रिय वॉलेट स्थिति ⚡",
+    moneyInflowEvents: "कुल आवक लेन-देन",
+    moneyOutflowEvents: "कुल खर्च लेन-देन",
+    localSyncVault: "स्थानीय सुरक्षा",
+    privacyLock: "गोपनीयता लॉक",
+    clientSideOnly: "✔ 100% उपयोक्ता-स्तर",
+    
+    // History Ledger Log
+    splitHistoryLedger: "स्प्लिट इतिहास लेजर 📂",
+    showingRecordStats: "{total} में से {filtered} रिकॉर्ड सुरक्षित प्रदर्शित",
+    searchLogsPlaceholder: "इतिहास खोजें...",
+    allTypes: "सभी प्रकार",
+    creditsOnly: "केवल जमा (Credits)",
+    debitsOnly: "केवल खर्च (Debits)",
+    allCategories: "सभी श्रेणियां",
+    noRecordsFilter: "आपके फ़िल्टर के अनुसार कोई रिकॉर्ड नहीं मिला",
+    noRecordsFilterDesc: "कृपया फ़िल्टर बदलें या ऊपर एक नया स्प्लिट विवरण दर्ज करें।",
+    confirmedLocal: "✔ सत्यापित",
+    deleteSplitRecord: "खर्च रिकॉर्ड हटाएं",
+    
+    // Social Mates tab
+    activeMates: "मित्र और उनके खाते 👥",
+    matesDesc: "अपने फ्लैटमेट्स, भोजन के साथियों या यात्रा समूहों के लिए प्रोफाइल खाते बनाएं ताकि आप एक नज़र में कुल शेष राशि देख सकें।",
+    searchMatesPlaceholder: "मित्र खोजें...",
+    mateNamePlaceholder: "मित्र का नाम...",
+    addMateBtn: "मित्र जोड़ें",
+    outstandingLabel: "बकाया:",
+    depositedLabel: "दिया हुआ:",
+    clearedLabel: "चुकाया:",
+    viewLedgerBtn: "खाता देखें →",
+    activeStatus: "सक्रिय",
+    noPortfoliosMatch: "आपके द्वारा खोजा गया कोई मित्र नहीं मिला",
+    noPortfoliosMatchDesc: "खाता शुरू करने के लिए ऊपर दिए गए बॉक्स में एक नया नाम जोड़ें।",
+    
+    // Ledger Page detail
+    ledgerStanding: "खाता स्थिति",
+    repaymentPending: "पुनर्भुगतान लंबित",
+    debtPending: "उधार लंबित",
+    clearedMutual: "पूरी तरह चुकता",
+    owesYou: "{person} को आपको यह बकाया राशि लौटानी है।",
+    youOwe: "आपको {person} को यह बकाया राशि लौटानी है।",
+    allSettled: "बधाई हो! सभी आपसी खाते पूरी तरह संतुलित हैं।",
+    myOutlays: "मेरे खर्च (Debits)",
+    moneyLentOn: "{person} पर किया गया कुल खर्च या उधार दिया पैसा",
+    outlaysRegistered: "{count} खर्च दर्ज",
+    repaymentsCredits: "वापस प्राप्त (Credits)",
+    repaymentsCleared: "वापस किए गए या प्राप्त पैसे",
+    settlementsRegistered: "{count} भुगतान दर्ज",
+    aiSplitAssistantFor: "{person} के लिए AI असिस्टेंट",
+    aiSplitAssistantPersonDesc: "विशेष रूप से {person} के लिए विवरण दर्ज करें। असिस्टेंट स्वचालित रूप से इस खाते में लेन-देन जोड़ देगा।",
+    inputPlaceholder: "जैसे: फिल्म के लिए 400 रुपये दिए ({person} के साथ स्वतः जुड़ जाएगा)",
+    submitRecord: "दर्ज करें",
+    goBackBtn: "मित्र सूची पर वापस जाएं ←",
+    recentTransactionsWith: "{person} के साथ लेन-देन का ब्यौरा",
+    searchHistoryPlaceholder: "लेन-देन खोजें...",
+    deleteContactBtn: "मित्र प्रोफ़ाइल हटाएं",
+    deleteContactTitle: "इस मित्र और उनके सभी लेन-देन इतिहास को पूरी तरह मिटाएं"
+  }
+};
 import { Transaction, TransactionType, SmartParseResult } from './types';
 import DeveloperDeck from './components/DeveloperDeck';
 import { 
@@ -99,6 +316,35 @@ const DEMO_TRANSACTIONS: Transaction[] = [
 ];
 
 export default function App() {
+  // Local persistent theme and language state
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    return (localStorage.getItem('finzy_ledger_theme') as 'dark' | 'light') || 'dark';
+  });
+  const [lang, setLang] = useState<'en' | 'hi'>(() => {
+    return (localStorage.getItem('finzy_ledger_lang') as 'en' | 'hi') || 'en';
+  });
+
+  // Persist selections
+  useEffect(() => {
+    localStorage.setItem('finzy_ledger_theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('finzy_ledger_lang', lang);
+  }, [lang]);
+
+  // Translate helper function
+  const t = (key: keyof typeof TRANSLATIONS.en, variables?: Record<string, string | number>) => {
+    const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+    let text = (dict as any)[key] || (TRANSLATIONS.en as any)[key] || key;
+    if (variables) {
+      Object.entries(variables).forEach(([k, v]) => {
+        text = text.replace(`{${k}}`, String(v));
+      });
+    }
+    return text;
+  };
+
   // Local persistent ledger state
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
     const saved = localStorage.getItem('personal_ledger_transactions');
@@ -121,6 +367,14 @@ export default function App() {
   const [smartInput, setSmartInput] = useState('');
   const [isParsing, setIsParsing] = useState(false);
   const [parserNotice, setParserNotice] = useState<string | null>(null);
+
+  // Multimodal Image Scanning states
+  const [smartInputMode, setSmartInputMode] = useState<'text' | 'scan'>('text');
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [isScanningImage, setIsScanningImage] = useState(false);
+  const [scannedTxs, setScannedTxs] = useState<any[]>([]);
+  const [showScanSuccessModal, setShowScanSuccessModal] = useState(false);
 
   // Manual Adjust Modal/Review states 
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -391,6 +645,159 @@ export default function App() {
     }
   };
 
+  const clickTemplateTrigger = (text: string) => {
+    setSmartInput(text);
+    handleSmartParse(text);
+  };
+
+  const getAvatarColor = (name: string): string => {
+    const colors = [
+      'from-emerald-500/20 to-teal-500/10 text-emerald-400 border-emerald-500/20',
+      'from-blue-500/20 to-indigo-500/10 text-blue-400 border-blue-500/20',
+      'from-amber-500/20 to-orange-500/10 text-amber-400 border-amber-500/20',
+      'from-fuchsia-500/20 to-rose-500/10 text-fuchsia-400 border-fuchsia-500/20',
+      'from-violet-500/20 to-purple-500/10 text-violet-400 border-violet-500/20',
+      'from-cyan-500/20 to-teal-500/10 text-cyan-400 border-cyan-500/20'
+    ];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const idx = Math.abs(hash) % colors.length;
+    return colors[idx];
+  };
+
+  // Handle manual image selection
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedImage(file);
+      const url = URL.createObjectURL(file);
+      setImagePreviewUrl(url);
+    }
+  };
+
+  // Drag and drop handlers
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleImageDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      // Only process image files
+      if (file.type.startsWith('image/')) {
+        setSelectedImage(file);
+        const url = URL.createObjectURL(file);
+        setImagePreviewUrl(url);
+      } else {
+        triggerAlert("Invalid File", "Please drop an image file (PNG, JPG, or WEBP).");
+      }
+    }
+  };
+
+  const removeSelectedImage = () => {
+    setSelectedImage(null);
+    if (imagePreviewUrl) {
+      URL.revokeObjectURL(imagePreviewUrl);
+      setImagePreviewUrl(null);
+    }
+    setScannedTxs([]);
+  };
+
+  // Convert File object to Base64 string safely
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        } else {
+          reject(new Error("Failed to convert image to base64 string"));
+        }
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Scan and directly insert parsed transactions to local database
+  const handleScanImage = async () => {
+    if (!selectedImage) return;
+
+    setIsScanningImage(true);
+    setScannedTxs([]);
+
+    try {
+      const base64Data = await fileToBase64(selectedImage);
+      const mimeType = selectedImage.type;
+
+      const response = await fetch('/api/scan-paper-ledger', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBase64: base64Data, mimeType }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to scan paper');
+      }
+
+      const data = await response.json();
+      const rawExtracted: any[] = data.transactions || [];
+
+      if (rawExtracted.length === 0) {
+        triggerAlert("No Records Found", "Gemini scanned the document successfully but did not detect any readable transaction logs. Ensure the image text is clear and readable.");
+        return;
+      }
+
+      // Convert scanned transactions into matching ledger types
+      const processedRecords: Transaction[] = rawExtracted.map((item: any, idx) => {
+        const cleanAmount = typeof item.amount === 'number' ? Math.abs(item.amount) : parseFloat(item.amount) || 0;
+        const cleanType = item.type === 'Credit' ? TransactionType.CREDIT : TransactionType.DEBIT;
+        const cleanParty = item.party || 'Self';
+        const cleanCategory = categoriesList.includes(item.category) ? item.category : 'Other';
+        const cleanNotes = item.notes || `Scanned entry from document`;
+        
+        // Date parsing with timezone support and clean local time
+        let timestamp = new Date().toISOString();
+        if (item.date && /^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
+          timestamp = `${item.date}T12:00:00.000Z`; // Safe default mid-day UTC offset
+        }
+
+        return {
+          id: `scan-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 5)}`,
+          amount: cleanAmount,
+          type: cleanType,
+          party: cleanParty,
+          category: cleanCategory,
+          notes: cleanNotes,
+          timestamp: timestamp
+        };
+      });
+
+      // Automatically prepends/injects transactions on the ledger ("automatically add on the ledger date wise" as requested!)
+      // Since sortedTransactions sorts chronologically descending dynamically in UI,
+      // they will immediately slide into their correct historical/date timeline!
+      setTransactions(prev => [...processedRecords, ...prev]);
+
+      // Open verification modal
+      setScannedTxs(processedRecords);
+      setShowScanSuccessModal(true);
+
+      // Reset image state
+      removeSelectedImage();
+
+    } catch (error: any) {
+      console.error('OCR Scanning Error:', error);
+      triggerAlert("Analysis Failed", error.message || "An unexpected error occurred while communicating with the document scanner.");
+    } finally {
+      setIsScanningImage(false);
+    }
+  };
+
   // Save the reviewed draft transaction to local-first database
   const saveTransaction = () => {
     if (manualAmount <= 0) {
@@ -490,7 +897,28 @@ export default function App() {
       }
     } catch (err: any) {
       console.error('Google alignment failure:', err);
-      setSyncNotice({ type: 'error', text: 'Authentication failed. Please check browser popups & Drive permission access.' });
+      const isIframe = window.self !== window.top;
+      let errorMsg = 'Authentication failed. Please check browser popups & Drive permission access.';
+      
+      const isPopupClosed = err.code === 'auth/popup-closed-by-user' || 
+                            err.message?.includes('popup-closed-by-user') || 
+                            err.message?.includes('closed-by-user') ||
+                            String(err).includes('popup-closed-by-user');
+      
+      if (isPopupClosed) {
+        if (isIframe) {
+          errorMsg = 'Google sign-in popup was closed or got blocked. Inside the editor iframe, browser security settings block the popup authentication cookie channel. To sync safely, click "Open App in New Tab" below and then click Connect Google Drive!';
+        } else {
+          errorMsg = 'Google sign-in popup was closed or blocked. Please make sure to allow popups in your browser and keep the login window open until completed.';
+        }
+      } else {
+        errorMsg += ` Detail: ${err.message || err}`;
+      }
+      
+      setSyncNotice({ 
+        type: 'error', 
+        text: errorMsg 
+      });
     } finally {
       setIsSyncing(false);
     }
@@ -576,98 +1004,85 @@ export default function App() {
         } finally {
           setIsSyncing(false);
         }
-      },
-      { confirmText: "Restore & Overwrite", isDestructive: true }
+      }
     );
   };
 
-  const handleGoogleLogout = async () => {
-    try {
-      await logoutWithGoogle();
-      setGoogleUser(null);
-      setGoogleAccessToken(null);
-      setSyncNotice({ type: 'ref', text: 'You have been logged out from your Google account session.' });
-    } catch (err: any) {
-      console.error('Logout failed:', err);
-    }
+  const handleGoogleLogout = () => {
+    setGoogleUser(null);
+    setGoogleAccessToken(null);
+    setSyncNotice(null);
+    triggerAlert("Logged Out", "You have signed out from Google Drive sync session.");
   };
 
-  // Inject a Mock template command to demonstrate voice capability easily in iframe standard environments
-  const clickTemplateTrigger = (command: string) => {
-    setSmartInput(command);
-    handleSmartParse(command);
-  };
-
-  const getAvatarColor = (name: string) => {
-    const colors = [
-      'from-rose-500 to-pink-500 text-rose-50',
-      'from-emerald-500 to-teal-500 text-emerald-50',
-      'from-blue-600 to-indigo-550 text-blue-50',
-      'from-amber-500 to-orange-500 text-amber-50',
-      'from-purple-500 to-violet-500 text-violet-50',
-      'from-cyan-500 to-sky-500 text-cyan-50',
-    ];
-    let sum = 0;
-    for (let i = 0; i < name.length; i++) {
-      sum += name.charCodeAt(i);
-    }
-    return colors[sum % colors.length];
-  };
-
-  const handleCreateNewPerson = () => {
-    const trimmed = newPersonName.trim();
-    if (!trimmed) return;
-    if (trimmed.toLowerCase() === 'self') {
-      triggerAlert("Name Reserved", "Name 'Self' is reserved for internal entries.");
+  const handleCreateNewPerson = (name?: string | React.MouseEvent) => {
+    const finalParam = typeof name === 'string' ? name : newPersonName;
+    const trimmedName = finalParam.trim();
+    if (!trimmedName) {
+      triggerAlert("Invalid Name", "Please enter a valid name.");
       return;
     }
-    const exists = customPeople.some(p => p.toLowerCase() === trimmed.toLowerCase());
-    if (exists) {
-      triggerAlert("Profile Exists", `${trimmed} profile already exists in directory.`);
+    if (customPeople.some(p => p.toLowerCase() === trimmedName.toLowerCase())) {
+      triggerAlert("Already Exists", "A contact with this exact name already exists.");
       return;
     }
-    setCustomPeople(prev => [trimmed, ...prev]);
+    setCustomPeople(prev => [trimmedName, ...prev]);
     setNewPersonName('');
-    setSelectedPerson(trimmed);
+    triggerAlert("Contact Created", `${trimmedName} has been added to your contact profiles.`);
+  };
+
+  const handleDeleteContact = (personName: string) => {
+    triggerConfirm(
+      "Confirm Contact Deletion",
+      `Are you sure you want to delete the profile directory for ${personName}? This will permanently clear their ledger history.`,
+      () => {
+        setCustomPeople(prev => prev.filter(p => p !== personName));
+        setTransactions(prev => prev.filter(tx => tx.party.toLowerCase() !== personName.toLowerCase()));
+        setSelectedPerson(null);
+        triggerAlert("Contact Deleted", `Successfully removed ${personName}'s ledger and history catalog.`);
+      },
+      { confirmText: "Delete Directory", isDestructive: true }
+    );
   };
 
   const handlePersonSmartParse = async (personName: string) => {
     if (!personSmartInput.trim()) return;
-
     setIsPersonParsing(true);
     setParserNotice(null);
 
     try {
-      const response = await fetch('/api/parse-transaction', {
+      const response = await fetch('/api/parse-split-text', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sentence: `${personSmartInput} with ${personName}` }),
+        body: JSON.stringify({ text: personSmartInput }),
       });
 
       if (!response.ok) {
-        throw new Error('API parsing failure');
+        throw new Error('Backend parse failed');
       }
 
-      const parsed = await response.json();
-      const parsedAmount = typeof parsed.amount === 'number' ? parsed.amount : parseFloat(parsed.amount) || 0;
+      const data = await response.json();
+      const parsed = data.result || {};
+      const parsedAmount = typeof parsed.amount === 'number' ? Math.abs(parsed.amount) : parsed.amount || 0;
       const parsedType = parsed.type === 'Credit' ? TransactionType.CREDIT : TransactionType.DEBIT;
 
-      setReviewData({
+      const resultObj: SmartParseResult = {
         amount: parsedAmount,
         type: parsedType,
-        party: personName, // enforce person
-        category: parsed.category || 'Other',
+        party: personName,
+        category: categoriesList.includes(parsed.category) ? parsed.category : 'Other',
         notes: parsed.notes || personSmartInput,
         success: true
-      });
+      };
 
+      setReviewData(resultObj);
       setManualAmount(parsedAmount);
       setManualType(parsedType);
       setManualParty(personName);
-      setManualCategory(parsed.category || 'Other');
-      setManualNotes(parsed.notes || personSmartInput);
+      setManualCategory(resultObj.category);
+      setManualNotes(resultObj.notes);
 
-      setParserNotice(parsed.parserUsed || 'Smart NLP Parser');
+      setParserNotice(parsed.parserUsed || 'Smart Person NLP Parser');
       setShowReviewModal(true);
       setPersonSmartInput('');
 
@@ -746,17 +1161,19 @@ export default function App() {
   ];
 
   // Filtering Logic
-  const filteredTransactions = transactions.filter(tx => {
-    const matchesSearch = 
-      tx.notes.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tx.party.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tx.category.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesCategory = filterCategory === 'All' || tx.category === filterCategory;
-    const matchesType = filterType === 'All' || tx.type === filterType;
+  const filteredTransactions = [...transactions]
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .filter(tx => {
+      const matchesSearch = 
+        tx.notes.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        tx.party.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        tx.category.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesCategory = filterCategory === 'All' || tx.category === filterCategory;
+      const matchesType = filterType === 'All' || tx.type === filterType;
 
-    return matchesSearch && matchesCategory && matchesType;
-  });
+      return matchesSearch && matchesCategory && matchesType;
+    });
 
   // Category summary for dynamic UI visualization stats
   const categorySummary: { [key: string]: number } = {};
@@ -769,37 +1186,86 @@ export default function App() {
   const maxCategoryDebit = Math.max(...Object.values(categorySummary), 1);
 
   return (
-    <div id="main-ledger-app" className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col antialiased">
+    <div id="main-ledger-app" className={`min-h-screen ${theme === 'dark' ? 'bg-cyber-gradient text-zinc-100' : 'bg-light-gradient text-zinc-900'} flex flex-col antialiased font-sans transition-colors duration-300`}>
       
       {/* Dynamic Header */}
-      <header id="app-header" className="border-b border-zinc-900 bg-zinc-900/40 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-emerald-950/80 border border-emerald-800 text-emerald-400 rounded-xl shadow-glow">
-              <TrendingUp className="w-5 h-5" />
+      <header id="app-header" className={`border-b ${theme === 'dark' ? 'border-zinc-900/60 bg-zinc-950/70' : 'border-zinc-200 bg-white/70'} backdrop-blur-xl sticky top-0 z-40 transition-all`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+          <div className="flex items-center gap-3.5 group">
+            <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-2xl shadow-lg shadow-emerald-500/10 group-hover:scale-110 group-hover:border-emerald-400 transition-all duration-300">
+              <TrendingUp className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <span className="text-[10px] text-emerald-400 uppercase tracking-widest font-semibold block leading-none">Local-First</span>
-              <h1 className="text-md sm:text-lg font-extrabold tracking-tight text-white leading-tight">Private Account Ledger</h1>
+              <div className="flex items-center gap-2">
+                <span className="text-[9px] text-emerald-400 font-extrabold uppercase tracking-widest bg-emerald-950/70 py-0.5 px-2 rounded-full border border-emerald-900/20">{t("localSecure")}</span>
+              </div>
+              <h1 className="text-lg sm:text-xl font-extrabold tracking-tight font-display">
+                <span className={`${theme === 'dark' ? 'text-white' : 'text-zinc-800'}`}>Finzy</span> <span className="text-emerald-500 font-black">Ledger</span>
+              </h1>
             </div>
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Language Toggle */}
+            <button
+              id="btn-toggle-language"
+              type="button"
+              onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+              className={`px-2.5 py-1.5 rounded-xl border flex items-center gap-1.5 text-xs font-black cursor-pointer transition-all ${
+                theme === 'dark'
+                  ? 'border-zinc-800 text-zinc-350 bg-zinc-900 hover:bg-zinc-850'
+                  : 'border-zinc-300 text-zinc-700 bg-white hover:bg-zinc-50 shadow-sm'
+              }`}
+              title={lang === 'en' ? "हिंदी में बदलें" : "Switch to English"}
+            >
+              <Languages className="w-3.5 h-3.5 text-emerald-500" />
+              <span>{lang === 'en' ? "हिंदी" : "EN"}</span>
+            </button>
+
+            {/* Theme Toggle Button */}
+            <button
+              id="btn-toggle-theme"
+              type="button"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className={`p-2 rounded-xl transition-all border flex items-center justify-center cursor-pointer ${
+                theme === 'dark' 
+                  ? 'border-zinc-855 text-zinc-455 bg-zinc-900 hover:text-emerald-400' 
+                  : 'border-zinc-300 text-zinc-750 bg-white hover:text-emerald-600 shadow-sm'
+              }`}
+              title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400 animate-spin-slow" /> : <Moon className="w-4 h-4 text-indigo-650" />}
+            </button>
+
+            {/* Specs View Toggle */}
             <button
               id="btn-toggle-logs"
+              type="button"
               onClick={() => setShowDeveloperLogs(!showDeveloperLogs)}
-              className="text-xs transition-colors px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 flex items-center gap-1.5 cursor-pointer font-medium"
+              className={`text-xs transition-all px-2.5 py-1.5 rounded-xl border flex items-center gap-1.5 cursor-pointer font-bold ${
+                theme === 'dark'
+                  ? 'border-zinc-800 text-zinc-450 hover:text-emerald-400 hover:bg-zinc-900/50 hover:border-emerald-500/30'
+                  : 'border-zinc-200 text-zinc-650 bg-white hover:text-emerald-600 hover:bg-zinc-50 shadow-sm'
+              }`}
             >
-              <Code className="w-3.5 h-3.5" />
-              {showDeveloperLogs ? "Hide Specs" : "View Specs"}
+              <Code className="w-3.5 h-3.5 text-emerald-500" />
+              <span className="hidden sm:inline">{showDeveloperLogs ? t("hideSpecs") : t("viewSpecs")}</span>
             </button>
+
+            {/* Wipe Data Reset Button */}
             <button 
               id="btn-clear-database"
+              type="button"
               onClick={handleDeleteLocalLedger}
-              className="text-xs transition-colors text-zinc-500 hover:text-rose-450 hover:bg-rose-950/20 px-3 py-1.5 border border-transparent rounded-lg hover:border-rose-900/30 cursor-pointer active:scale-95"
-              title="Permanently wipe all local ledger logs and custom profile contacts"
+              className={`text-xs transition-all px-2.5 py-1.5 border border-transparent rounded-xl cursor-pointer active:scale-95 font-bold ${
+                theme === 'dark'
+                  ? 'text-zinc-500 hover:text-rose-455 hover:bg-rose-955/20 hover:border-rose-900/20'
+                  : 'text-zinc-550 hover:text-rose-605 shadow-sm'
+              }`}
+              title="Wipe local records"
             >
-              Delete Ledger
+              <Trash2 className="w-3.5 h-3.5 xs:mr-1 inline-block" />
+              <span className="hidden xs:inline">{t("resetData")}</span>
             </button>
           </div>
         </div>
@@ -809,7 +1275,11 @@ export default function App() {
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
         
         {/* Navigation Tabs Bar */}
-        <div className="flex bg-zinc-900/60 p-1 rounded-2xl border border-zinc-850 gap-1.5 shadow-xl animate-fadeIn">
+        <div className={`flex p-1.5 rounded-2xl gap-2 shadow-xl animate-fadeIn transition-all duration-300 ${
+          theme === 'dark' 
+            ? 'bg-zinc-900/40 border border-zinc-850/80 shadow-black/40' 
+            : 'bg-zinc-100 border border-zinc-200 shadow-zinc-200/50'
+        }`}>
           <button
             id="tab-btn-dashboard"
             onClick={() => {
@@ -818,12 +1288,16 @@ export default function App() {
             }}
             className={`flex-1 py-3 text-xs uppercase tracking-wider font-extrabold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer ${
               activeMainTab === 'dashboard'
-                ? 'bg-zinc-800 text-emerald-400 border border-zinc-700/50 shadow-md font-black'
-                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-950/40'
+                ? theme === 'dark'
+                  ? 'bg-zinc-800 text-emerald-400 border border-zinc-700/50 shadow-lg font-black scale-[1.01]'
+                  : 'bg-white text-emerald-650 border border-zinc-200/80 shadow-md font-black scale-[1.01]'
+                : theme === 'dark'
+                  ? 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-950/40'
+                  : 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-200/50'
             }`}
           >
             <FileText className="w-4 h-4" />
-            General Ledger Dashboard
+            Cash Flow Dashboard
           </button>
           <button
             id="tab-btn-people"
@@ -832,36 +1306,52 @@ export default function App() {
             }}
             className={`flex-1 py-3 text-xs uppercase tracking-wider font-extrabold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer ${
               activeMainTab === 'people'
-                ? 'bg-zinc-800 text-emerald-400 border border-zinc-700/55 shadow-md font-black'
-                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-950/40'
+                ? theme === 'dark'
+                  ? 'bg-zinc-800 text-emerald-400 border border-zinc-700/55 shadow-lg font-black scale-[1.01]'
+                  : 'bg-white text-emerald-650 border border-zinc-200/80 shadow-md font-black scale-[1.01]'
+                : theme === 'dark'
+                  ? 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-950/40'
+                  : 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-200/50'
             }`}
           >
             <Users className="w-4 h-4" />
-            People & Contacts Directory
+            Social Friend Directory
           </button>
         </div>
 
         {/* Google Drive Cloud Sync & Backup Dashboard */}
-        <section id="google-drive-sync-panel" className="bg-zinc-900/40 p-5 rounded-2xl border border-zinc-850 shadow-xl animate-fadeIn space-y-4">
+        <section id="google-drive-sync-panel" className={`p-6 rounded-3xl shadow-xl animate-fadeIn space-y-5 transition-all duration-300 ${
+          theme === 'dark' 
+            ? 'glass-card border-zinc-800 shadow-black/50' 
+            : 'glass-card-light border-zinc-200 shadow-zinc-100'
+        }`}>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             
-            <div className="flex items-start gap-3.5">
-              <div className="p-3 bg-zinc-950 border border-zinc-800 text-emerald-400 rounded-2xl shrink-0">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-2xl shrink-0">
                 <Cloud className="w-6 h-6 animate-pulse" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-sm font-extrabold text-white tracking-wide uppercase flex items-center gap-2 font-mono">
-                  Google Drive Cloud Backup Vault 
-                  <span className="text-[9px] tracking-normal font-sans font-bold bg-emerald-950 border border-emerald-800/60 text-emerald-400 px-2 py-0.5 rounded">
-                    OAuth Secure
+                <h3 className={`text-sm font-extrabold uppercase tracking-wide flex items-center gap-2 font-display ${
+                  theme === 'dark' ? 'text-white' : 'text-zinc-900'
+                }`}>
+                  Cloud backup stash ☁️
+                  <span className={`text-[9px] tracking-normal font-sans font-black px-2 py-0.5 rounded-full border ${
+                    theme === 'dark' 
+                      ? 'bg-indigo-950/80 border-indigo-800/40 text-indigo-400' 
+                      : 'bg-indigo-50 border-indigo-200/60 text-indigo-650'
+                  }`}>
+                    G-Drive Secure
                   </span>
                 </h3>
-                <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
-                  Safely push or pull your entire personal ledger transactions database and contacts profile pages to your personal Google Drive account directory.
+                <p className={`text-xs max-w-2xl leading-relaxed ${
+                  theme === 'dark' ? 'text-zinc-400' : 'text-zinc-650'
+                }`}>
+                  Backup your active split ledger & list of mates instantly to your personal secure cloud storage. Safe, private, and fully controlled by you!
                 </p>
                 {lastSyncChecked && (
-                  <p className="text-[10px] text-zinc-550 font-mono">
-                    Last active sync check: {lastSyncChecked}
+                  <p className="text-[10px] text-indigo-400/80 font-mono font-bold">
+                    ✨ Last synced: {lastSyncChecked}
                   </p>
                 )}
               </div>
@@ -869,28 +1359,56 @@ export default function App() {
 
             <div className="flex items-center gap-3 shrink-0">
               {isSyncing ? (
-                <div className="flex items-center gap-2 text-zinc-400 text-xs font-mono bg-zinc-950 px-4 py-2.5 rounded-xl border border-zinc-850">
-                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-400" />
+                <div className={`flex items-center gap-2 text-xs font-mono px-4 py-2.5 rounded-2xl border shadow-md ${
+                  theme === 'dark' 
+                    ? 'bg-zinc-950 text-zinc-300 border-zinc-850' 
+                    : 'bg-zinc-50 text-zinc-750 border-zinc-200'
+                }`}>
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-450" />
                   Syncing Cloud...
                 </div>
               ) : !googleUser ? (
-                <button
-                  id="btn-google-sign-in"
-                  onClick={handleGoogleLogin}
-                  className="flex items-center gap-2.5 px-5 py-2.5 bg-zinc-900 hover:bg-zinc-805 text-zinc-100 font-extrabold text-xs uppercase tracking-wider rounded-xl border border-zinc-800 transition-colors shadow-lg hover:border-emerald-500/30 cursor-pointer active:scale-97"
-                >
-                  <LogIn className="w-4 h-4 text-emerald-400" />
-                  Enable Google Drive Sync
-                </button>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <button
+                    id="btn-google-sign-in"
+                    onClick={handleGoogleLogin}
+                    className="flex items-center justify-center gap-2.5 px-6 py-3 bg-gradient-to-r from-zinc-900 to-zinc-800 hover:from-indigo-650 hover:to-indigo-550 text-zinc-100 hover:text-white font-extrabold text-xs uppercase tracking-wider rounded-2xl border border-zinc-800 transition-all shadow-xl hover:shadow-indigo-500/20 cursor-pointer active:scale-95"
+                  >
+                    <LogIn className="w-4 h-4 text-indigo-400 group-hover:text-white transition-colors" />
+                    Connect Google Drive Sync
+                  </button>
+                  {window.self !== window.top && (
+                    <a
+                      href={window.location.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className={`flex items-center justify-center gap-1.5 px-4 py-3 border font-extrabold text-xs uppercase tracking-wider rounded-2xl transition-all cursor-pointer shadow-lg active:scale-95 ${
+                        theme === 'dark'
+                          ? 'bg-zinc-950 border-zinc-850 hover:border-zinc-700 text-zinc-400 hover:text-zinc-200'
+                          : 'bg-white border-zinc-250 hover:border-zinc-350 text-zinc-650 hover:text-zinc-850'
+                      }`}
+                      title="Open the application in a new browser tab to bypass editor iframe restrictions for Google Login."
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-indigo-400" />
+                      Open in Tab
+                    </a>
+                  )}
+                </div>
               ) : (
-                <div className="flex flex-wrap items-center gap-2.5 bg-zinc-950/60 p-1.5 rounded-xl border border-zinc-850">
+                <div className={`flex flex-wrap items-center gap-2.5 p-2 rounded-2xl border shadow-inner ${
+                  theme === 'dark' ? 'bg-zinc-950/80 border-zinc-850' : 'bg-zinc-100 border-zinc-200/80 shadow-zinc-150'
+                }`}>
                   
                   {/* Google User Identity profile tag */}
-                  <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 border border-zinc-805 bg-zinc-900/85 rounded-lg text-xs">
-                    <div className="w-5 h-5 rounded-full bg-emerald-500 text-zinc-900 flex items-center justify-center font-black text-[10px] uppercase">
+                  <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 border rounded-xl text-xs ${
+                    theme === 'dark' 
+                      ? 'border-zinc-805 bg-zinc-900/40 text-zinc-300' 
+                      : 'border-zinc-200 bg-white text-zinc-700 shadow-sm'
+                  }`}>
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-indigo-500 to-emerald-400 text-zinc-950 flex items-center justify-center font-black text-[10px] uppercase">
                       {googleUser.displayName?.charAt(0) || googleUser.email?.charAt(0) || 'G'}
                     </div>
-                    <span className="text-zinc-300 font-semibold truncate max-w-[120px]">
+                    <span className="font-bold truncate max-w-[120px]">
                       {googleUser.displayName || googleUser.email}
                     </span>
                   </div>
@@ -898,263 +1416,439 @@ export default function App() {
                   <button
                     id="btn-drive-backup-trigger"
                     onClick={handleBackupToDrive}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs uppercase tracking-wide rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-400 hover:scale-[1.03] text-zinc-950 font-black text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg shadow-emerald-500/10"
                     title="Write Ledger snapshot back output to Google Drive file space"
                   >
-                    <CloudUpload className="w-3.5 h-3.5" />
-                    Backup Ledger
+                    <CloudUpload className="w-3.5 h-3.5 font-bold" />
+                    Backup
                   </button>
 
                   <button
                     id="btn-drive-restore-trigger"
                     onClick={handleRestoreFromDrive}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900 hover:bg-zinc-805 text-zinc-350 hover:text-white font-extrabold text-xs uppercase tracking-wide rounded-lg border border-zinc-800 transition-colors cursor-pointer"
+                    className={`flex items-center gap-1.5 px-4 py-2 font-extrabold text-xs uppercase tracking-wider rounded-xl border transition-all cursor-pointer ${
+                      theme === 'dark'
+                        ? 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-200 hover:text-white border-zinc-800'
+                        : 'bg-white hover:bg-zinc-50 text-zinc-700 hover:text-zinc-900 border-zinc-350 shadow-sm'
+                    }`}
                     title="Read, verify, and resolve backup from your Google Drive files"
                   >
-                    <CloudDownload className="w-3.5 h-3.5 text-emerald-400" />
-                    Restore Backup
-                  </button>
-
-                  <button
-                    id="btn-drive-delete-trigger"
-                    onClick={handleDeleteCloudBackup}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-950 border border-zinc-850 hover:bg-rose-950/35 hover:border-rose-900/60 text-zinc-400 hover:text-rose-400 font-extrabold text-xs uppercase tracking-wide rounded-lg transition-colors cursor-pointer"
-                    title="Delete backup file permanently from Google Drive"
-                  >
-                    <Trash2 className="w-3.5 h-3.5 text-rose-500" />
-                    Delete Cloud Backup
-                  </button>
-
-                  <button
-                    id="btn-google-sign-out"
-                    onClick={handleGoogleLogout}
-                    className="p-1.5 px-2 bg-zinc-950 border border-zinc-850 hover:border-rose-955/40 text-zinc-500 hover:text-rose-400 rounded-lg text-xs transition-colors cursor-pointer"
-                    title="Sign out from Google Session"
-                  >
-                    <LogOut className="w-4 h-4" />
+                    <CloudDownload className="w-3.5 h-3.5 text-emerald-500 animate-bounce" />
+                    Restore
                   </button>
                 </div>
               )}
             </div>
-
           </div>
-
-          {/* Sync notice toast notifications */}
-          {syncNotice && (
-            <div className={`p-3.5 rounded-xl border flex items-center justify-between gap-3 text-xs animate-fadeIn ${
-              syncNotice.type === 'success' 
-                ? 'bg-emerald-950/45 border-emerald-900/50 text-emerald-400' 
-                : syncNotice.type === 'error' 
-                ? 'bg-rose-955/35 border-rose-955/40 text-rose-350' 
-                : 'bg-zinc-950 border-zinc-850 text-zinc-450'
-            }`}>
-              <div className="flex items-center gap-2">
-                <Info className="w-4 h-4 shrink-0" />
-                <span>{syncNotice.text}</span>
-              </div>
-              <button 
-                onClick={() => setSyncNotice(null)}
-                className="text-zinc-500 hover:text-zinc-300 text-xs shrink-0 cursor-pointer"
-              >
-                Dismiss
-              </button>
-            </div>
-          )}
         </section>
 
         {activeMainTab === 'dashboard' ? (
           <>
-        
-        {/* Net Position Banner Deck with Beautiful Bento Layout */}
-        <section id="net-position-deck" className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Net Position Banner Deck with Beautiful Bento Layout */}
+            <section id="net-position-deck" className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
           {/* Bento Panel 1: Net Balance */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800 shadow-xl flex flex-col justify-between min-h-[140px] relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+          <div className={`p-6 rounded-3xl flex flex-col justify-between min-h-[150px] relative overflow-hidden hover:scale-[1.01] transition-all duration-300 group ${
+            theme === 'dark' 
+              ? 'bg-gradient-to-br from-zinc-900 to-zinc-950/80 border border-emerald-500/30 shadow-2xl shadow-black/40 text-zinc-100' 
+              : 'bg-white border border-emerald-555/25 shadow-xl shadow-zinc-200/40 text-zinc-800'
+          }`}>
+            <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/15 transition-all ${
+              theme === 'dark' ? 'bg-emerald-500/5' : 'bg-emerald-500/10'
+            }`} />
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-zinc-400 tracking-wider uppercase">Net Financial Position</span>
-              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
-                netPosition >= 0 ? 'bg-emerald-950 text-emerald-400 border border-emerald-900' : 'bg-rose-950 text-rose-400 border border-rose-900'
+              <span className={`text-[10px] font-black tracking-wider font-display uppercase ${
+                theme === 'dark' ? 'text-zinc-400' : 'text-zinc-550'
+              }`}>Net Wallet Position ⚡</span>
+              <span className={`text-[9px] px-2.5 py-1 rounded-full font-black uppercase tracking-wider border ${
+                netPosition >= 0 
+                  ? theme === 'dark' ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/50' : 'bg-emerald-50 text-emerald-700 border-emerald-250' 
+                  : theme === 'dark' ? 'bg-rose-950 text-rose-405 border border-rose-900' : 'bg-rose-50 text-rose-700 border-rose-250'
               }`}>
                 {netPosition >= 0 ? 'Surplus' : 'Deficit'}
               </span>
             </div>
             <div className="mt-4">
-              <div className="text-3xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-1">
-                <span className="text-emerald-400 text-2.5xl">₹</span>
+              <div className={`text-3.5xl sm:text-4xl font-extrabold tracking-tight flex items-center gap-1 font-mono ${
+                theme === 'dark' ? 'text-white' : 'text-zinc-900'
+              }`}>
+                <span className="text-emerald-500 text-2xl font-bold font-sans">₹</span>
                 {netPosition.toLocaleString('en-IN', { minimumFractionDigits: 0 })}
               </div>
-              <p className="text-xs text-zinc-500 mt-2">Aggregate ledger calculation across all social parties & categories</p>
+              <p className={`text-[11px] mt-2 font-sans leading-relaxed ${
+                theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600 font-medium'
+              }`}>Aggregate balance calculated automatically across all active friends</p>
             </div>
           </div>
 
           {/* Bento Panel 2: Total Credits (In) */}
-          <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-900 shadow-xl flex flex-col justify-between min-h-[140px]">
+          <div className={`p-6 rounded-3xl shadow-xl flex flex-col justify-between min-h-[150px] hover:scale-[1.01] transition-all duration-300 group ${
+            theme === 'dark' 
+              ? 'bg-zinc-900/40 border border-zinc-850/80 shadow-black/40 text-zinc-100' 
+              : 'bg-white border border-zinc-200 shadow-zinc-200/40 text-zinc-800'
+          }`}>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-zinc-400 tracking-wider uppercase">Total Income (In)</span>
-              <div className="p-1 px-2 text-[10px] bg-zinc-800 text-emerald-400 rounded-lg flex items-center gap-1 border border-zinc-800">
-                <ArrowDownLeft className="w-3 h-3" /> Money Received
+              <span className={`text-[10px] font-black tracking-wider font-display uppercase ${
+                theme === 'dark' ? 'text-zinc-400' : 'text-zinc-550'
+              }`}>Total Money In 🟢</span>
+              <div className={`p-1 px-2.5 text-[10px] rounded-lg flex items-center gap-1 border font-mono font-bold ${
+                theme === 'dark' 
+                  ? 'bg-emerald-950/40 text-emerald-400 border-emerald-955/20' 
+                  : 'bg-emerald-50 text-emerald-700 border-emerald-200/60'
+              }`}>
+                <ArrowDownLeft className="w-3.5 h-3.5" /> Money Inflow
               </div>
             </div>
             <div className="mt-4">
-              <div className="text-2.5xl font-extrabold text-emerald-400 flex items-center gap-0.5">
+              <div className="text-2.5xl font-extrabold text-emerald-500 flex items-center gap-0.5 font-mono">
                 + ₹{totalIn.toLocaleString('en-IN', { minimumFractionDigits: 0 })}
               </div>
-              <p className="text-xs text-zinc-500 mt-2">Cumulative cash balance inflows or salaries recovered</p>
+              <p className={`text-[11px] mt-2 font-sans leading-relaxed ${
+                theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600 font-medium'
+              }`}>Cumulative cash balance details and received splits</p>
             </div>
           </div>
 
           {/* Bento Panel 3: Total Debits (Out) */}
-          <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-900 shadow-xl flex flex-col justify-between min-h-[140px]">
+          <div className={`p-6 rounded-3xl shadow-xl flex flex-col justify-between min-h-[150px] hover:scale-[1.01] transition-all duration-300 group ${
+            theme === 'dark' 
+              ? 'bg-zinc-900/40 border border-zinc-850/80 shadow-black/40 text-zinc-100' 
+              : 'bg-white border border-zinc-200 shadow-zinc-200/40 text-zinc-800'
+          }`}>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-zinc-400 tracking-wider uppercase">Total Expense (Out)</span>
-              <div className="p-1 px-2 text-[10px] bg-zinc-800 text-rose-400 rounded-lg flex items-center gap-1 border border-zinc-800">
-                <ArrowUpRight className="w-3 h-3" /> Money Paid
+              <span className={`text-[10px] font-black tracking-wider font-display uppercase ${
+                theme === 'dark' ? 'text-zinc-400' : 'text-zinc-550'
+              }`}>Total Money Out 🔴</span>
+              <div className={`p-1 px-2.5 text-[10px] rounded-lg flex items-center gap-1 border font-mono font-bold ${
+                theme === 'dark' 
+                  ? 'bg-rose-955/20 text-rose-400 border-rose-955/35' 
+                  : 'bg-rose-50 text-rose-750 border-rose-200/50'
+              }`}>
+                <ArrowUpRight className="w-3.5 h-3.5 animate-pulse" /> Outflow Sum
               </div>
             </div>
             <div className="mt-4">
-              <div className="text-2.5xl font-extrabold text-rose-400 flex items-center gap-0.5">
+              <div className="text-2.5xl font-extrabold text-rose-500 flex items-center gap-0.5 font-mono">
                 - ₹{totalOut.toLocaleString('en-IN', { minimumFractionDigits: 0 })}
               </div>
-              <p className="text-xs text-zinc-500 mt-2">Cumulative cash spent on dining, rent, or social loans</p>
+              <p className={`text-[11px] mt-2 font-sans leading-relaxed ${
+                theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600 font-medium'
+              }`}>Splits lent or daily outlays tracked for food/living/entertainment</p>
             </div>
           </div>
         </section>
 
-        {/* Smart natural-language input field & floating voice activator */}
-        <section id="smart-entry-card" className="p-6 rounded-2xl bg-zinc-900 border border-zinc-800 shadow-2xl relative overflow-hidden">
+        {/* Smart natural-language input field, floating voice activator & paper OCR scanner */}
+        <section id="smart-entry-card" className={`p-6 rounded-3xl shadow-xl relative overflow-hidden transition-all duration-300 ${
+          theme === 'dark' 
+            ? 'glass-card border-zinc-855 shadow-black/50' 
+            : 'glass-card-light border-zinc-200 shadow-zinc-200/40'
+        }`}>
           <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
           
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
             <div>
-              <h3 className="text-sm font-bold text-zinc-200 uppercase tracking-widest flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-emerald-400" />
-                SMART NATURAL LANGUAGE TRANSACTION INJECTOR
+              <h3 className={`text-sm font-extrabold uppercase tracking-wider flex items-center gap-2 font-display ${
+                theme === 'dark' ? 'text-white' : 'text-zinc-900'
+              }`}>
+                <Sparkles className="w-5 h-5 text-emerald-450 animate-pulse" />
+                AI Split assistant & receipt scanner
               </h3>
-              <p className="text-xs text-zinc-400">
-                Type or speak commands casually. The AI will parse details with millisecond precision.
+              <p className={`text-xs leading-relaxed max-w-xl ${
+                theme === 'dark' ? 'text-zinc-400' : 'text-zinc-650'
+              }`}>
+                Type list items, dictate voice entries, or upload paper receipts to register split transactions chronologically with friends instantly.
               </p>
             </div>
             
             {/* Quick Helper Speech Recognition Notice */}
             {isListening && (
-              <div className="flex items-center gap-2 bg-emerald-950/80 border border-emerald-900 text-emerald-400 rounded-full px-3 py-1 font-mono text-xs text-center animate-pulse">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                Listening actively... Speak now
+              <div className="flex items-center gap-2 bg-rose-955/20 border border-rose-900/60 text-rose-500 rounded-full px-4.5 py-1.5 font-mono text-xs text-center animate-pulse">
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
+                Listening actively... Speak now 🎙️
               </div>
             )}
           </div>
 
-          {/* Core Input with mic floating activator */}
-          <div className="relative flex items-center bg-zinc-950 border border-zinc-800 rounded-xl focus-within:border-emerald-500 transition-colors p-1.5 shadow-inner">
-            <input
-              id="txt-smart-transaction-input"
-              type="text"
-              value={smartInput}
-              onChange={(e) => setSmartInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleSmartParse(smartInput);
-                }
-              }}
-              placeholder="e.g. Spent 500 on dinner with Arjun yesterday..."
-              className="w-full bg-transparent px-4 py-3 text-sm focus:outline-none placeholder-zinc-500 text-zinc-100"
-              disabled={isParsing || isListening}
-            />
-
-            {/* Microscopic Status Indicator inside input */}
-            {isParsing && (
-              <div className="flex items-center gap-1.5 text-zinc-500 mr-2">
-                <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-400" />
-                <span className="text-xs font-mono">Parsing...</span>
-              </div>
-            )}
-
-            {/* Microphone floating activator button */}
+          {/* Sub-Tabs Selector inside Smart Entry Card */}
+          <div className={`p-1.5 rounded-2xl gap-1.5 mb-5 shadow-inner flex transition-all duration-300 ${
+            theme === 'dark' ? 'bg-zinc-950/80 border border-zinc-900' : 'bg-zinc-100 border border-zinc-250/50'
+          }`}>
             <button
-              id="btn-voice-capture-float"
-              onClick={toggleSpeechRecognition}
-              className={`p-3.5 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
-                isListening 
-                  ? 'bg-rose-600 text-white animate-bounce shadow-glow' 
-                  : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white'
+              id="subtab-btn-text"
+              type="button"
+              onClick={() => setSmartInputMode('text')}
+              className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                smartInputMode === 'text'
+                  ? theme === 'dark'
+                    ? 'bg-zinc-805 text-emerald-400 border border-zinc-700/50 shadow-md font-black scale-[1.01]'
+                    : 'bg-white text-emerald-650 border border-zinc-200/80 shadow-md font-black scale-[1.01]'
+                  : theme === 'dark'
+                    ? 'text-zinc-500 hover:text-zinc-300'
+                    : 'text-zinc-500 hover:text-zinc-850'
               }`}
-              title="Record Voice Command"
-              disabled={isParsing}
             >
-              {isListening ? <MicOff className="w-4.5 h-4.5" /> : <Mic className="w-4.5 h-4.5 text-emerald-400" />}
+              <Mic className="w-4 h-4 text-emerald-500" />
+              Casual Text or Voice Speech
+            </button>
+            <button
+              id="subtab-btn-scan"
+              type="button"
+              onClick={() => setSmartInputMode('scan')}
+              className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                smartInputMode === 'scan'
+                  ? theme === 'dark'
+                    ? 'bg-zinc-805 text-emerald-450 border border-zinc-700/50 shadow-md font-black scale-[1.01]'
+                    : 'bg-white text-emerald-650 border border-zinc-205/85 shadow-md font-black scale-[1.01]'
+                  : theme === 'dark'
+                    ? 'text-zinc-500 hover:text-zinc-300'
+                    : 'text-zinc-500 hover:text-zinc-850'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-emerald-555 animate-bounce" />
+              Multimodal Paper scan ocr
             </button>
           </div>
 
-          {/* Action Triggers */}
-          <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
-            
-            {/* Quick templates for instant click parser playground in case iframe blocks direct micro access */}
-            <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] text-zinc-500 font-mono">QUICK TEST CLICKS:</span>
-              <div className="flex flex-wrap gap-2">
+          {smartInputMode === 'scan' ? (
+            <div className="space-y-4 animate-fadeIn">
+              {/* Upload/Drop Zone */}
+              <div 
+                onDragOver={handleDragOver}
+                onDrop={handleImageDrop}
+                className={`border-2 border-dashed rounded-xl p-6 text-center transition-all duration-300 ${
+                  selectedImage 
+                    ? theme === 'dark' ? 'border-emerald-500/50 bg-emerald-955/10' : 'border-emerald-500 bg-emerald-50/40'
+                    : theme === 'dark' ? 'border-zinc-800 hover:border-zinc-750 bg-zinc-950/40' : 'border-zinc-300 hover:border-zinc-400 bg-zinc-50/80'
+                }`}
+              >
+                <input 
+                  type="file" 
+                  id="scan-image-upload" 
+                  accept="image/*" 
+                  className="hidden" 
+                  onChange={handleImageSelect}
+                  disabled={isScanningImage}
+                />
+                
+                {imagePreviewUrl ? (
+                  <div className="space-y-4">
+                    <div className="relative inline-block">
+                      <img 
+                        src={imagePreviewUrl} 
+                        alt="Selected paper sheet" 
+                        className="max-h-48 rounded-lg mx-auto border border-zinc-800 shadow-md"
+                      />
+                      <button
+                        type="button"
+                        onClick={removeSelectedImage}
+                        className="absolute -top-2 -right-2 p-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-full transition-colors cursor-pointer flex items-center justify-center"
+                        disabled={isScanningImage}
+                        title="Remove image"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    
+                    <div className={`text-xs ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600 font-bold'}`}>
+                      <span className="font-semibold">{selectedImage?.name}</span> ({(selectedImage?.size ? selectedImage.size / 1024 / 1024 : 0).toFixed(2)} MB)
+                    </div>
+                  </div>
+                ) : (
+                  <label 
+                    htmlFor="scan-image-upload" 
+                    className="flex flex-col items-center justify-center gap-3 cursor-pointer py-4"
+                  >
+                    <div className={`p-4 rounded-full border ${
+                      theme === 'dark' ? 'bg-zinc-900 border-zinc-800 text-emerald-450' : 'bg-emerald-50 border-emerald-250/50 text-emerald-600'
+                    }`}>
+                      <CloudUpload className="w-6 h-6 animate-pulse" />
+                    </div>
+                    <div className="space-y-1">
+                      <p className={`text-sm font-bold ${theme === 'dark' ? 'text-zinc-200' : 'text-zinc-700'}`}>Drag and drop paper, logs or bills here</p>
+                      <p className={`text-xs ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-550'}`}>or click to choose device photos/scans</p>
+                    </div>
+                    <div className={`text-[10px] font-mono ${theme === 'dark' ? 'text-zinc-650' : 'text-zinc-450'}`}>
+                      Compatible types: PNG, JPG, JPEG, WEBP (Max 10MB)
+                    </div>
+                  </label>
+                )}
+              </div>
+
+              {/* Trigger Buttons */}
+              <div className="flex items-center justify-end gap-3 pt-2">
+                {selectedImage && (
+                  <button
+                    type="button"
+                    onClick={removeSelectedImage}
+                    className="px-4 py-2 bg-rose-650 hover:bg-rose-550 text-white rounded-xl font-bold text-xs transition-colors cursor-pointer"
+                    disabled={isScanningImage}
+                  >
+                    Discard
+                  </button>
+                )}
                 <button
-                  id="btn-sample-1"
-                  onClick={() => clickTemplateTrigger('Spent 500 on dinner with Arjun')}
-                  className="px-2.5 py-1 bg-zinc-950 hover:bg-zinc-800 text-[11px] text-zinc-400 rounded-md border border-zinc-850 hover:text-emerald-400 transition-colors cursor-pointer"
+                  type="button"
+                  onClick={handleScanImage}
+                  className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-450 text-zinc-950 rounded-xl font-extrabold text-xs flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                  disabled={!selectedImage || isScanningImage}
                 >
-                  "Spent 500 on dinner with Arjun"
-                </button>
-                <button
-                  id="btn-sample-2"
-                  onClick={() => clickTemplateTrigger('Salary credit of 80000 from client')}
-                  className="px-2.5 py-1 bg-zinc-950 hover:bg-zinc-800 text-[11px] text-zinc-400 rounded-md border border-zinc-850 hover:text-emerald-400 transition-colors cursor-pointer"
-                >
-                  "Salary credit of 80000"
-                </button>
-                <button
-                  id="btn-sample-3"
-                  onClick={() => clickTemplateTrigger('Paid 1500 to landlord')}
-                  className="px-2.5 py-1 bg-zinc-950 hover:bg-zinc-800 text-[11px] text-zinc-400 rounded-md border border-zinc-850 hover:text-emerald-400 transition-colors cursor-pointer"
-                >
-                  "Paid 1500 to landlord"
+                  {isScanningImage ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin text-zinc-950" />
+                      Scanning document...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 text-zinc-950" />
+                      Scan & Auto-Add Date Wise
+                    </>
+                  )}
                 </button>
               </div>
-            </div>
 
-            <button
-              id="btn-submit-smart-parse"
-              onClick={() => handleSmartParse(smartInput)}
-              className="px-6 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 disabled:opacity-50"
-              disabled={!smartInput.trim() || isParsing}
-            >
-              Parse Command
-              <Plus className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Voice Errors or Permissions Warning */}
-          {speechError && (
-            <div className="mt-3 p-3 bg-rose-950/60 border border-rose-900 rounded-xl flex items-start gap-2.5">
-              <Info className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-              <p className="text-xs text-rose-350">{speechError}</p>
+              <div className={`p-4 rounded-xl flex items-start gap-2.5 border transition-all ${
+                theme === 'dark' ? 'bg-zinc-950/80 border-zinc-850' : 'bg-zinc-50 border-zinc-200'
+              }`}>
+                <Info className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <p className={`text-xs leading-relaxed ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-650'}`}>
+                  <strong>Multimodal Paper Scanner:</strong> Point your camera at written records, printed invoices, restaurant bills, or logs. Gemini Extracts transactions and injects them directly into the ledger sorted chronologically by their parsed dates.
+                </p>
+              </div>
             </div>
+          ) : (
+            <>
+              {/* Core Input with mic floating activator */}
+              <div className={`relative flex items-center border rounded-xl p-1.5 shadow-inner transition-colors focus-within:border-emerald-500 ${
+                theme === 'dark' ? 'bg-zinc-955 border-zinc-800' : 'bg-white border-zinc-300'
+              }`}>
+                <input
+                  id="txt-smart-transaction-input"
+                  type="text"
+                  value={smartInput}
+                  onChange={(e) => setSmartInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSmartParse(smartInput);
+                    }
+                  }}
+                  placeholder="e.g. Spent 500 on dinner with Arjun yesterday..."
+                  className={`w-full bg-transparent px-4 py-3 text-sm focus:outline-none placeholder-zinc-500 ${
+                    theme === 'dark' ? 'text-zinc-150' : 'text-zinc-800 placeholder-zinc-400'
+                  }`}
+                  disabled={isParsing || isListening}
+                />
+
+                {/* Microscopic Status Indicator inside input */}
+                {isParsing && (
+                  <div className="flex items-center gap-1.5 text-zinc-500 mr-2 shrink-0">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-400" />
+                    <span className="text-xs font-mono">Parsing...</span>
+                  </div>
+                )}
+
+                {/* Microphone floating activator button */}
+                <button
+                  id="btn-voice-capture-float"
+                  type="button"
+                  onClick={toggleSpeechRecognition}
+                  className={`p-3.5 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
+                    isListening 
+                      ? 'bg-rose-600 text-white animate-bounce shadow-glow' 
+                      : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white'
+                  }`}
+                  title="Record Voice Command"
+                  disabled={isParsing}
+                >
+                  {isListening ? <MicOff className="w-4.5 h-4.5" /> : <Mic className="w-4.5 h-4.5 text-emerald-400" />}
+                </button>
+              </div>
+
+              {/* Action Triggers */}
+              <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+                
+                {/* Quick templates for instant click parser playground in case iframe blocks direct micro access */}
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] text-zinc-500 font-mono">QUICK TEST CLICKS:</span>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      id="btn-sample-1"
+                      type="button"
+                      onClick={() => clickTemplateTrigger('Spent 500 on dinner with Arjun')}
+                      className="px-2.5 py-1 bg-zinc-950 hover:bg-zinc-800 text-[11px] text-zinc-400 rounded-md border border-zinc-850 hover:text-emerald-400 transition-colors cursor-pointer"
+                    >
+                      "Spent 500 on dinner with Arjun"
+                    </button>
+                    <button
+                      id="btn-sample-2"
+                      type="button"
+                      onClick={() => clickTemplateTrigger('Salary credit of 80000 from client')}
+                      className="px-2.5 py-1 bg-zinc-950 hover:bg-zinc-800 text-[11px] text-zinc-400 rounded-md border border-zinc-850 hover:text-emerald-400 transition-colors cursor-pointer"
+                    >
+                      "Salary credit of 80000"
+                    </button>
+                    <button
+                      id="btn-sample-3"
+                      type="button"
+                      onClick={() => clickTemplateTrigger('Paid 1500 to landlord')}
+                      className="px-2.5 py-1 bg-zinc-950 hover:bg-zinc-800 text-[11px] text-zinc-400 rounded-md border border-zinc-850 hover:text-emerald-400 transition-colors cursor-pointer"
+                    >
+                      "Paid 1500 to landlord"
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  id="btn-submit-smart-parse"
+                  type="button"
+                  onClick={() => handleSmartParse(smartInput)}
+                  className="px-6 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+                  disabled={!smartInput.trim() || isParsing}
+                >
+                  Parse Command
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Voice Errors or Permissions Warning */}
+              {speechError && (
+                <div className="mt-3 p-3 bg-rose-950/60 border border-rose-900 rounded-xl flex items-start gap-2.5">
+                  <Info className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <p className="text-xs text-rose-350">{speechError}</p>
+                </div>
+              )}
+            </>
           )}
         </section>
 
         {/* Smart Entry Inline Reviewer & Adjuster panel */}
         {showReviewModal && (
-          <div id="modal-review-transaction" className="p-6 rounded-2xl bg-zinc-900 border border-emerald-500/40 relative shadow-2xl transition-all animate-fadeIn">
+          <div id="modal-review-transaction" className={`p-6 rounded-2xl relative shadow-2xl transition-all duration-300 animate-fadeIn border ${
+            theme === 'dark' 
+              ? 'bg-zinc-900 border-emerald-500/40 text-zinc-100 shadow-black/80' 
+              : 'bg-white border-emerald-500/30 text-zinc-800 shadow-zinc-250/20'
+          }`}>
             <div className="absolute top-2 right-2">
               <button 
                 id="btn-close-review"
                 onClick={() => setShowReviewModal(false)}
-                className="p-1 px-[5px] bg-zinc-950 border border-zinc-800 text-zinc-400 hover:text-white rounded-lg text-xs"
+                className={`p-1 px-[5px] border rounded-lg text-xs transition-colors cursor-pointer ${
+                  theme === 'dark'
+                    ? 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'
+                    : 'bg-zinc-50 border-zinc-250 text-zinc-550 hover:text-zinc-800'
+                }`}
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="flex items-center gap-2.5 text-emerald-400 font-bold tracking-wider text-xs uppercase mb-4 mb-2">
+            <div className="flex items-center gap-2.5 text-emerald-500 font-bold tracking-wider text-xs uppercase mb-4 mb-2">
               <Sparkles className="w-4 h-4 animate-pulse" />
               Parsed Ledger Draft Review
               {parserNotice && (
-                <span className="text-[10px] tracking-normal font-mono bg-emerald-950 border border-emerald-800 text-emerald-400 px-2 py-0.5 rounded ml-2">
+                <span className={`text-[10px] tracking-normal font-mono border px-2 py-0.5 rounded ml-2 ${
+                  theme === 'dark' ? 'bg-emerald-950 border-emerald-800 text-emerald-400' : 'bg-emerald-50 border-emerald-250 text-emerald-700'
+                }`}>
                   {parserNotice}
                 </span>
               )}
@@ -1170,7 +1864,9 @@ export default function App() {
                   type="number"
                   value={manualAmount}
                   onChange={(e) => setManualAmount(Number(e.target.value))}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-zinc-50 border-zinc-250 text-zinc-800'
+                  }`}
                 />
               </div>
 
@@ -1181,7 +1877,9 @@ export default function App() {
                   id="inp-review-type"
                   value={manualType}
                   onChange={(e) => setManualType(e.target.value as TransactionType)}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full cursor-pointer"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full cursor-pointer transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-zinc-50 border-zinc-250 text-zinc-800'
+                  }`}
                 >
                   <option value={TransactionType.DEBIT}>Debit (Paid / Spent)</option>
                   <option value={TransactionType.CREDIT}>Credit (Received / Salary)</option>
@@ -1196,7 +1894,9 @@ export default function App() {
                   type="text"
                   value={manualParty}
                   onChange={(e) => setManualParty(e.target.value)}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-zinc-50 border-zinc-250 text-zinc-800'
+                  }`}
                 />
               </div>
 
@@ -1207,7 +1907,9 @@ export default function App() {
                   id="inp-review-category"
                   value={manualCategory}
                   onChange={(e) => setManualCategory(e.target.value)}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full cursor-pointer"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full cursor-pointer transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-zinc-50 border-zinc-250 text-zinc-800'
+                  }`}
                 >
                   {categoriesList.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
@@ -1223,16 +1925,22 @@ export default function App() {
                   type="text"
                   value={manualNotes}
                   onChange={(e) => setManualNotes(e.target.value)}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-zinc-50 border-zinc-250 text-zinc-800'
+                  }`}
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-zinc-850">
+            <div className={`flex items-center justify-end gap-3 mt-4 pt-3 border-t ${
+              theme === 'dark' ? 'border-zinc-800' : 'border-zinc-200'
+            }`}>
               <button
                 id="btn-review-cancel"
                 onClick={() => setShowReviewModal(false)}
-                className="px-4 py-2 bg-transparent hover:bg-zinc-800 text-zinc-400 rounded-lg text-xs cursor-pointer transition-colors"
+                className={`px-4 py-2 bg-transparent rounded-lg text-xs cursor-pointer transition-colors ${
+                  theme === 'dark' ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500 hover:text-zinc-700'
+                }`}
               >
                 Discard Draft
               </button>
@@ -1255,98 +1963,140 @@ export default function App() {
           <div className="lg:col-span-4 space-y-6">
             
             {/* Category Breakdown Panel */}
-            <div id="category-breakdown-card" className="bg-zinc-900 border border-zinc-850 rounded-2xl p-6 shadow-xl">
-              <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-widest flex items-center gap-1.5 mb-4">
-                <FolderOpen className="w-4 h-4 text-emerald-400" /> Expense Allocation
+            <div id="category-breakdown-card" className={`p-6 rounded-3xl shadow-2xl relative overflow-hidden transition-all duration-300 hover:scale-[1.01] border ${
+              theme === 'dark' 
+                ? 'glass-card border-zinc-850 hover:border-emerald-500/20 shadow-black/60' 
+                : 'glass-card-light border-zinc-200 hover:border-emerald-555/20 shadow-zinc-200/40 text-zinc-800'
+            }`}>
+              <h3 className={`text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 mb-4 font-display ${
+                theme === 'dark' ? 'text-white' : 'text-zinc-800'
+              }`}>
+                <FolderOpen className="w-4.5 h-4.5 text-emerald-400 animate-pulse" /> Where does my money go? 💸
               </h3>
 
               {transactions.filter(tx => tx.type === TransactionType.DEBIT).length === 0 ? (
-                <div className="text-center py-6 text-zinc-500 text-xs text-center leading-relaxed">
-                  No debit records logged yet. Use the smart input field above to log a dining or rent debit transaction.
+                <div className="text-center py-8 text-zinc-500 text-xs leading-relaxed">
+                  No spend records logged yet. Try typing a coffee or dining transaction in the active split box above first!
                 </div>
               ) : (
                 <div className="space-y-4">
                   {Object.entries(categorySummary).map(([category, amount]) => {
                     const percent = Math.round((amount / totalOut) * 100) || 0;
                     return (
-                      <div key={category} className="space-y-1.5">
+                      <div key={category} className="space-y-2">
                         <div className="flex justify-between items-center text-xs">
-                          <span className="font-semibold text-zinc-200 flex items-center gap-1.5">
-                            <Tag className="w-3 h-3 text-zinc-500" />
+                          <span className={`font-bold flex items-center gap-1.5 ${
+                            theme === 'dark' ? 'text-zinc-300' : 'text-zinc-650'
+                          }`}>
+                            <Tag className="w-3.5 h-3.5 text-emerald-400" />
                             {category}
                           </span>
-                          <span className="text-zinc-400 font-medium">
+                          <span className={`font-bold font-mono ${
+                            theme === 'dark' ? 'text-zinc-400' : 'text-zinc-550'
+                          }`}>
                             ₹{amount.toLocaleString('en-IN')} ({percent}%)
                           </span>
                         </div>
-                        <div className="w-full bg-zinc-950 rounded-full h-1.5 overflow-hidden">
+                        <div className={`w-full rounded-full h-2 overflow-hidden border shadow-inner ${
+                          theme === 'dark' ? 'bg-zinc-950 border-zinc-900' : 'bg-zinc-150 border-zinc-200/80'
+                        }`}>
                           <div 
-                            className="bg-gradient-to-r from-emerald-500 to-teal-400 h-1.5 rounded-full"
+                            className="bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 h-2 rounded-full transition-all duration-500"
                             style={{ width: `${(amount / maxCategoryDebit) * 100}%` }}
                           />
                         </div>
                       </div>
                     );
                   })}
-                  <p className="text-[10px] text-zinc-500 font-mono mt-3 text-center border-t border-zinc-850 pt-2">
-                    * Showing category debit distributions of total ₹{totalOut.toLocaleString('en-IN')}
+                  <p className={`text-[10px] font-mono mt-3 text-center border-t pt-2.5 ${
+                    theme === 'dark' ? 'text-zinc-500 border-zinc-850/60' : 'text-zinc-405 border-zinc-200'
+                  }`}>
+                    * Showing category outlay distributions of ₹{totalOut.toLocaleString('en-IN')}
                   </p>
                 </div>
               )}
             </div>
 
             {/* Quick Balance Statement Card */}
-            <div id="quick-statement-card" className="bg-zinc-900 border border-zinc-850 rounded-2xl p-6 shadow-xl">
-              <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-widest flex items-center gap-1.5 mb-4">
-                <TrendingUp className="w-4 h-4 text-emerald-400" /> Smart Ledger Audit
+            <div id="quick-statement-card" className={`p-6 rounded-3xl shadow-2xl relative overflow-hidden transition-all duration-300 hover:scale-[1.01] border ${
+              theme === 'dark' 
+                ? 'glass-card border-zinc-850 hover:border-indigo-500/20 shadow-black/60' 
+                : 'glass-card-light border-zinc-200 hover:border-indigo-500/10 shadow-zinc-200/40 text-zinc-805'
+            }`}>
+              <h3 className={`text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 mb-4 font-display ${
+                theme === 'dark' ? 'text-white' : 'text-zinc-800'
+              }`}>
+                <TrendingUp className="w-4.5 h-4.5 text-indigo-400 animate-pulse" /> Active Wallet Check ⚡
               </h3>
-              <div className="space-y-3 font-mono text-xs text-zinc-400">
-                <div className="flex justify-between border-b border-zinc-850 pb-1.5">
-                  <span>Inflow Volume</span>
-                  <span className="text-emerald-400 font-semibold">{transactions.filter(t => t.type === TransactionType.CREDIT).length} Credits</span>
+              <div className={`space-y-3 font-mono text-xs ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                <div className={`flex justify-between border-b pb-2 ${
+                  theme === 'dark' ? 'border-zinc-850/60' : 'border-zinc-200'
+                }`}>
+                  <span className="text-zinc-500 text-[11px]">Money Inflow Events</span>
+                  <span className="text-emerald-500 font-bold">{transactions.filter(t => t.type === TransactionType.CREDIT).length} Credits</span>
                 </div>
-                <div className="flex justify-between border-b border-zinc-850 pb-1.5">
-                  <span>Outflow Volume</span>
-                  <span className="text-rose-400 font-semibold">{transactions.filter(t => t.type === TransactionType.DEBIT).length} Debits</span>
+                <div className={`flex justify-between border-b pb-2 ${
+                  theme === 'dark' ? 'border-zinc-850/60' : 'border-zinc-200'
+                }`}>
+                  <span className="text-zinc-500 text-[11px]">Money Outflow Events</span>
+                  <span className="text-rose-500 font-bold">{transactions.filter(t => t.type === TransactionType.DEBIT).length} Debits</span>
                 </div>
-                <div className="flex justify-between border-b border-zinc-850 pb-1.5">
-                  <span>Local Backup State</span>
-                  <span className="text-zinc-300">Synchronized (IndexedDB)</span>
+                <div className={`flex justify-between border-b pb-2 ${
+                  theme === 'dark' ? 'border-zinc-850/60' : 'border-zinc-200'
+                }`}>
+                  <span className="text-zinc-500 text-[11px]">Local sync vault</span>
+                  <span className={`font-bold ${theme === 'dark' ? 'text-zinc-200' : 'text-zinc-800'}`}>Synchronized (IndexedDB)</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Secure Encryption</span>
-                  <span className="text-emerald-400 font-semibold flex items-center gap-1">✔ Local-Only</span>
+                <div className="flex justify-between pb-0.5">
+                  <span className="text-zinc-500 text-[11px]">Privacy Lock</span>
+                  <span className="text-emerald-500 font-bold flex items-center gap-1">✔ 100% Client-Side</span>
                 </div>
               </div>
             </div>
-            
+
           </div>
 
           {/* Right Column (Transactions Feed/Table, 8 columns) */}
-          <div id="transactions-feed" className="lg:col-span-8 bg-zinc-900 border border-zinc-850 rounded-2xl overflow-hidden shadow-xl">
+          <div id="transactions-feed" className={`lg:col-span-8 rounded-3xl overflow-hidden shadow-2xl border ${
+            theme === 'dark' 
+              ? 'glass-card border-zinc-850 shadow-black/80' 
+              : 'glass-card-light border-zinc-200 shadow-zinc-250/20'
+          }`}>
             
             {/* Table Header / Filter Suite */}
-            <div className="p-5 border-b border-zinc-850 bg-zinc-950 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className={`p-6 border-b backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+              theme === 'dark' 
+                ? 'border-zinc-900/45 bg-zinc-950/75' 
+                : 'border-zinc-200 bg-zinc-50/80'
+            }`}>
               <div>
-                <h3 className="text-sm font-extrabold text-zinc-100 flex items-center gap-1.5 uppercase tracking-wide">
-                  <FileText className="w-4 h-4 text-emerald-400" /> Account Entry ledger Log
+                <h3 className={`text-sm font-black flex items-center gap-2 uppercase tracking-wider font-display ${
+                  theme === 'dark' ? 'text-white' : 'text-zinc-800'
+                }`}>
+                  <FileText className="w-5 h-5 text-emerald-400 animate-pulse" /> Split History Ledger 📂
                 </h3>
-                <p className="text-[11px] text-zinc-400">Showing {filteredTransactions.length} of {transactions.length} local records</p>
+                <p className={`text-[11px] mt-1 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                  Showing {filteredTransactions.length} of {transactions.length} secure local records
+                </p>
               </div>
 
               {/* Filtering Controls */}
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2.5">
                 
                 {/* Search Bar */}
-                <div className="relative flex items-center bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs">
-                  <Search className="w-3.5 h-3.5 text-zinc-550 mr-1.5" />
+                <div className={`relative flex items-center border rounded-xl px-3 py-1.5 text-xs transition-colors ${
+                  theme === 'dark' 
+                    ? 'bg-zinc-900 border-zinc-800 text-zinc-200 focus-within:border-emerald-500/50' 
+                    : 'bg-white border-zinc-250 text-zinc-800 focus-within:border-emerald-500/40'
+                }`}>
+                  <Search className="w-3.5 h-3.5 text-zinc-550 mr-2" />
                   <input
                     id="txt-search-ledger"
                     type="text"
-                    placeholder="Search query..."
+                    placeholder="Search logs..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-transparent border-none focus:outline-none placeholder-zinc-500 text-zinc-200 text-xs w-32"
+                    className="bg-transparent border-none focus:outline-none placeholder-zinc-550 text-xs w-28 font-semibold"
                   />
                 </div>
 
@@ -1355,11 +2105,13 @@ export default function App() {
                   id="sel-type-filter"
                   value={filterType}
                   onChange={(e) => setFilterType(e.target.value)}
-                  className="bg-zinc-900 border border-zinc-800 hover:border-zinc-750 text-zinc-300 text-[11px] rounded-lg px-2 py-1.5 transition-colors cursor-pointer"
+                  className={`border hover:border-zinc-550 text-xs rounded-xl px-3 py-2 transition-all cursor-pointer font-bold ${
+                    theme === 'dark' ? 'bg-zinc-900 border-zinc-800 text-zinc-205' : 'bg-white border-zinc-250 text-zinc-700'
+                  }`}
                 >
                   <option value="All">All Types</option>
-                  <option value={TransactionType.CREDIT}>Credits only</option>
-                  <option value={TransactionType.DEBIT}>Debits only</option>
+                  <option value={TransactionType.CREDIT}>Credits Only</option>
+                  <option value={TransactionType.DEBIT}>Debits Only</option>
                 </select>
 
                 {/* Category Filter */}
@@ -1367,7 +2119,9 @@ export default function App() {
                   id="sel-category-filter"
                   value={filterCategory}
                   onChange={(e) => setFilterCategory(e.target.value)}
-                  className="bg-zinc-900 border border-zinc-800 hover:border-zinc-750 text-zinc-300 text-[11px] rounded-lg px-2 py-1.5 transition-colors cursor-pointer"
+                  className={`border hover:border-zinc-550 text-xs rounded-xl px-3 py-2 transition-all cursor-pointer font-bold ${
+                    theme === 'dark' ? 'bg-zinc-900 border-zinc-800 text-zinc-205' : 'bg-white border-zinc-250 text-zinc-700'
+                  }`}
                 >
                   <option value="All">All Categories</option>
                   {categoriesList.map(cat => (
@@ -1379,47 +2133,55 @@ export default function App() {
             </div>
 
             {/* List Body */}
-            <div className="divide-y divide-zinc-850">
+            <div className={`divide-y ${theme === 'dark' ? 'divide-zinc-905' : 'divide-zinc-200/80'}`}>
               {filteredTransactions.length === 0 ? (
-                <div className="p-12 text-center text-zinc-500">
-                  <Info className="w-8 h-8 text-zinc-600 mx-auto mb-2 text-zinc-400" />
-                  <p className="text-sm font-semibold">No transactions found matching your criteria</p>
-                  <p className="text-xs text-zinc-400 mt-1">Try adapting your filters or entering a new casual transaction string.</p>
+                <div className="p-16 text-center text-zinc-500">
+                  <Info className="w-10 h-10 text-zinc-600 mx-auto mb-3 animate-bounce" />
+                  <p className={`text-sm font-extrabold ${theme === 'dark' ? 'text-zinc-300' : 'text-zinc-650'}`}>No records found matching your filters</p>
+                  <p className="text-xs text-zinc-400 mt-2">Try adjusting your filters or typing a fresh split statement above.</p>
                 </div>
               ) : (
                 filteredTransactions.map((tx) => (
                   <div 
                     key={tx.id} 
                     id={`tx-row-${tx.id}`}
-                    className="p-5 flex items-center justify-between gap-4 hover:bg-zinc-950/40 transition-colors animate-fadeIn"
+                    className={`p-5 flex items-center justify-between gap-4 transition-all duration-200 animate-fadeIn ${
+                      theme === 'dark' ? 'hover:bg-zinc-950/60' : 'hover:bg-zinc-50'
+                    }`}
                   >
-                    <div className="flex items-center gap-3.5">
+                    <div className="flex items-center gap-4">
                       {/* Visual Indicator of Credit or Debit */}
-                      <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 ${
+                      <div className={`p-3 rounded-2xl border flex items-center justify-center shrink-0 shadow-lg ${
                         tx.type === TransactionType.CREDIT
-                          ? 'bg-emerald-950/60 border-emerald-900 text-emerald-400'
-                          : 'bg-rose-950/60 border-rose-900 text-rose-400'
+                          ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-emerald-500/5'
+                          : 'bg-rose-500/10 border-rose-500/30 text-rose-400 shadow-rose-500/5'
                       }`}>
                         {tx.type === TransactionType.CREDIT ? (
-                          <ArrowDownLeft className="w-4 h-4" />
+                          <ArrowDownLeft className="w-4.5 h-4.5 animate-pulse" />
                         ) : (
-                          <ArrowUpRight className="w-4 h-4" />
+                          <ArrowUpRight className="w-4.5 h-4.5 animate-pulse" />
                         )}
                       </div>
 
                       {/* Detail Column */}
-                      <div className="space-y-0.5">
-                        <div className="flex items-center flex-wrap gap-2 text-zinc-100">
-                          <span className="text-xs font-semibold text-zinc-450 flex items-center gap-1 px-1.5 py-0.5 bg-zinc-950 border border-zinc-800 rounded-md">
-                            <User className="w-3 h-3 text-zinc-500" /> {tx.party}
+                      <div className="space-y-1">
+                        <div className="flex items-center flex-wrap gap-2">
+                          <span className={`text-[10px] font-black flex items-center gap-1 px-2.5 py-1 border rounded-full font-mono ${
+                            theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-705'
+                          }`}>
+                            <User className="w-3 h-3 text-emerald-400" /> {tx.party}
                           </span>
-                          <span className="text-xs font-medium text-emerald-400 px-1.5 py-0.5 bg-zinc-950 border border-zinc-800 rounded-md flex items-center gap-1">
-                            <Tag className="w-3 h-3 text-zinc-500" /> {tx.category}
+                          <span className={`text-[10px] font-black px-2.5 py-1 border rounded-full flex items-center gap-1 font-mono ${
+                            theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-indigo-300' : 'bg-zinc-50 border-zinc-200 text-indigo-600'
+                          }`}>
+                            <Tag className="w-3 h-3 text-indigo-405" /> {tx.category}
                           </span>
                         </div>
-                        <p className="text-xs font-bold text-zinc-200 mt-1">{tx.notes}</p>
-                        <div className="flex items-center gap-1.5 text-[10px] text-zinc-500">
-                          <Calendar className="w-3 h-3 text-zinc-650" />
+                        <p className={`text-xs font-extrabold leading-normal mt-1 ${theme === 'dark' ? 'text-zinc-101' : 'text-zinc-800'}`}>
+                          {tx.notes}
+                        </p>
+                        <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 font-mono">
+                          <Calendar className="w-3.5 h-3.5 text-zinc-650" />
                           <span>{new Date(tx.timestamp).toLocaleString()}</span>
                         </div>
                       </div>
@@ -1427,23 +2189,25 @@ export default function App() {
 
                     <div className="flex items-center gap-4 text-right shrink-0">
                       <div>
-                        <div className={`text-sm sm:text-base font-black ${
-                          tx.type === TransactionType.CREDIT ? 'text-emerald-400' : 'text-rose-400'
+                        <div className={`text-base sm:text-lg font-black font-mono tracking-tight ${
+                          tx.type === TransactionType.CREDIT ? 'text-emerald-400 font-extrabold' : 'text-rose-455 font-extrabold'
                         }`}>
                           {tx.type === TransactionType.CREDIT ? '+' : '-'} ₹{tx.amount.toLocaleString('en-IN', { minimumFractionDigits: 0 })}
                         </div>
-                        <span className="text-[9px] font-mono uppercase tracking-wider text-zinc-500 block">
-                          Confirmed Local
+                        <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-550 block font-bold leading-none mt-1">
+                          ✔ Verified
                         </span>
                       </div>
 
                       <button
                         id={`btn-delete-tx-${tx.id}`}
                         onClick={() => deleteTransaction(tx.id)}
-                        className="p-2 bg-transparent hover:bg-rose-950/20 text-zinc-650 hover:text-rose-400 rounded-xl transition-colors cursor-pointer"
-                        title="Delete record"
+                        className={`p-2.5 bg-transparent rounded-xl transition-all cursor-pointer hover:scale-105 active:scale-95 ${
+                          theme === 'dark' ? 'text-zinc-600 hover:bg-rose-955/20 hover:text-rose-400' : 'text-zinc-400 hover:bg-rose-50 hover:text-rose-600'
+                        }`}
+                        title="Delete split record"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-4.5 h-4.5" />
                       </button>
                     </div>
                   </div>
@@ -1568,27 +2332,27 @@ export default function App() {
           <div className="space-y-6">
             
             {/* Header & New Profile creator panel */}
-            <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-850 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+            <div className="glass-card p-6 rounded-3xl shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl" />
               <div className="space-y-1">
-                <h2 className="text-sm font-bold text-zinc-100 uppercase tracking-widest flex items-center gap-2">
-                  <Users className="w-4.5 h-4.5 text-emerald-400" />
-                  Social Ledgers & Portfolios
+                <h2 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 font-display">
+                  <span className="p-1 px-2 bg-emerald-955/10 text-emerald-400 font-mono rounded border border-emerald-900/40 text-[10px]">Active</span>
+                  Social mates & portfolios
                 </h2>
-                <p className="text-xs text-zinc-400">Initialize a custom profile page for any person or organization to monitor independent balances.</p>
+                <p className="text-xs text-zinc-400 leading-relaxed max-w-md">Initialize profile portfolios for your flatmates, dining buddies, or travel groups to see net balances at a glance.</p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
                 {/* Search Field */}
                 <div className="relative flex items-center bg-zinc-950 border border-zinc-805 rounded-xl px-3 py-2.5 text-xs focus-within:border-emerald-500 transition-colors">
                   <Search className="w-3.5 h-3.5 text-zinc-500 mr-2 shrink-0" />
                   <input
                     id="txt-search-contacts"
                     type="text"
-                    placeholder="Search profiles..."
+                    placeholder="Search mates..."
                     value={searchContactQuery}
                     onChange={(e) => setSearchContactQuery(e.target.value)}
-                    className="bg-transparent border-none focus:outline-none placeholder-zinc-550 text-zinc-200 text-xs w-44"
+                    className="bg-transparent border-none focus:outline-none placeholder-zinc-550 text-zinc-200 text-xs w-44 font-semibold"
                   />
                 </div>
 
@@ -1597,21 +2361,21 @@ export default function App() {
                   <input
                     id="txt-create-contact-name"
                     type="text"
-                    placeholder="Name... (e.g. Preeti)"
+                    placeholder="Mate's name..."
                     value={newPersonName}
                     onChange={(e) => setNewPersonName(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') handleCreateNewPerson();
                     }}
-                    className="bg-transparent px-3 py-2 text-xs text-zinc-200 outline-none placeholder-zinc-550 w-36"
+                    className="bg-transparent px-3 py-2 text-xs text-zinc-200 outline-none placeholder-zinc-550 w-36 font-semibold"
                   />
                   <button
                     id="btn-create-contact-submit"
                     onClick={handleCreateNewPerson}
-                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-lg font-bold text-xs flex items-center gap-1 cursor-pointer transition-colors shrink-0"
+                    className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-400 hover:scale-[1.02] text-zinc-950 rounded-lg font-black text-xs flex items-center gap-1 cursor-pointer transition-all shrink-0 uppercase tracking-wide"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    Create Page
+                    Add Mate
                   </button>
                 </div>
               </div>
@@ -1652,26 +2416,26 @@ export default function App() {
                       <div 
                         key={person} 
                         id={`person-card-${person}`}
-                        className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 p-6 rounded-2xl flex flex-col justify-between space-y-5 hover:shadow-2xl transition-all cursor-pointer group hover:bg-zinc-900/80"
+                        className="glass-card border border-zinc-850/80 hover:border-emerald-500/20 p-6 rounded-3xl flex flex-col justify-between space-y-5 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
                         onClick={() => setSelectedPerson(person)}
                       >
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-3">
                             {/* Initials avatar circle */}
-                            <div className={`w-12 h-12 rounded-2.5xl bg-gradient-to-br ${getAvatarColor(person)} flex items-center justify-center font-black text-sm uppercase shadow-lg border border-zinc-700/20`}>
+                            <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${getAvatarColor(person)} flex items-center justify-center font-black text-sm uppercase shadow-lg border border-zinc-700/10`}>
                               {person.charAt(0)}
                             </div>
                             <div>
                               <h3 className="font-extrabold text-white text-sm group-hover:text-emerald-400 transition-colors leading-tight">{person}</h3>
-                              <p className="text-[10px] text-zinc-500 mt-0.5">{personTxs.length} logged events</p>
+                              <p className="text-[10px] text-zinc-500 mt-1">{personTxs.length} logged events</p>
                             </div>
                           </div>
 
-                          <span className={`text-[10px] font-mono font-black px-2.5 py-1 rounded-lg border ${
+                          <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border font-mono ${
                             netUnpaidBalance > 0 
-                              ? 'bg-emerald-950/80 text-emerald-400 border-emerald-900/60' 
+                              ? 'bg-emerald-950/65 text-emerald-400 border-emerald-900/60' 
                               : netUnpaidBalance < 0 
-                              ? 'bg-rose-955/80 text-rose-350 border-rose-900/60' 
+                              ? 'bg-rose-955/20 text-rose-350 border-rose-900/40' 
                               : 'bg-zinc-950 text-zinc-400 border-zinc-850'
                           }`}>
                             {netUnpaidBalance > 0 
@@ -1683,24 +2447,24 @@ export default function App() {
                         </div>
 
                         {/* Balance metrics */}
-                        <div className="bg-zinc-950/50 border border-zinc-850 p-4 rounded-xl space-y-2.5">
-                          <div className="flex items-center justify-between text-xs text-zinc-400 font-medium">
-                            <span>Outstanding Balance:</span>
-                            <span className={`font-black text-xs font-mono font-bold ${
+                        <div className="bg-zinc-950/70 border border-zinc-900 p-4 rounded-2xl space-y-2.5 shadow-inner">
+                          <div className="flex items-center justify-between text-xs text-zinc-400 font-bold">
+                            <span>Outstanding:</span>
+                            <span className={`font-black text-xs font-mono ${
                               netUnpaidBalance > 0 ? 'text-emerald-400' : netUnpaidBalance < 0 ? 'text-rose-450' : 'text-zinc-450'
                             }`}>
                               {netUnpaidBalance > 0 ? '+' : ''}₹{netUnpaidBalance.toLocaleString('en-IN')}
                             </span>
                           </div>
-                          <div className="flex items-center justify-between text-[10px] text-zinc-500 border-t border-zinc-850/60 pt-2 font-mono">
-                            <span>Spent/Lent: ₹{debitsSum.toLocaleString('en-IN')}</span>
+                          <div className="flex items-center justify-between text-[10px] text-zinc-500 border-t border-zinc-900 pt-2 font-mono">
+                            <span>Deposited: ₹{debitsSum.toLocaleString('en-IN')}</span>
                             <span>Cleared: ₹{creditsSum.toLocaleString('en-IN')}</span>
                           </div>
                         </div>
 
                         <button
                           id={`person-view-btn-${person}`}
-                          className="w-full text-center py-2.5 bg-zinc-950 hover:bg-zinc-850 text-zinc-300 group-hover:text-white rounded-xl border border-zinc-800 text-[11px] font-extrabold transition-colors tracking-wide uppercase font-mono"
+                          className="w-full text-center py-2.5 bg-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 text-zinc-300 group-hover:text-white rounded-xl border border-zinc-850 text-[11px] font-black transition-all tracking-wider uppercase font-mono"
                         >
                           View Ledger Page &rarr;
                         </button>
@@ -1763,7 +2527,9 @@ export default function App() {
 
             {/* Individual personal portfolio metrics calculation details */}
             {(() => {
-              const personTxs = transactions.filter(t => t.party.trim().toLowerCase() === selectedPerson.toLowerCase());
+              const personTxs = [...transactions]
+                .filter(t => t.party.trim().toLowerCase() === selectedPerson.toLowerCase())
+                .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
               const creditsSum = personTxs.filter(t => t.type === TransactionType.CREDIT).reduce((sum, t) => sum + t.amount, 0);
               const debitsSum = personTxs.filter(t => t.type === TransactionType.DEBIT).reduce((sum, t) => sum + t.amount, 0);
               const netUnpaidBalance = debitsSum - creditsSum;
@@ -1775,39 +2541,39 @@ export default function App() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     
                     {/* Position standing card */}
-                    <div className={`p-6 rounded-2xl border flex flex-col justify-between min-h-[155px] relative overflow-hidden ${
+                    <div className={`p-6 rounded-3xl border flex flex-col justify-between min-h-[160px] relative overflow-hidden transition-all duration-300 hover:scale-[1.01] ${
                       netUnpaidBalance > 0 
-                        ? 'bg-emerald-950/25 border-emerald-900/60' 
+                        ? 'bg-emerald-950/25 border-emerald-500/25 shadow-xl shadow-emerald-500/5' 
                         : netUnpaidBalance < 0 
-                        ? 'bg-rose-950/25 border-rose-900/60' 
-                        : 'bg-zinc-900 border-zinc-800'
+                        ? 'bg-rose-950/25 border-rose-500/25 shadow-xl shadow-rose-500/5' 
+                        : 'glass-card border-zinc-800'
                     }`}>
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-zinc-400 tracking-wider uppercase font-mono">Net Ledger Position</span>
-                        <span className={`text-[9px] px-2 py-0.5 rounded-full font-black uppercase tracking-widest border ${
+                        <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase font-mono">Ledger Position standing</span>
+                        <span className={`text-[9px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-widest border font-mono ${
                           netUnpaidBalance > 0 
                             ? 'bg-emerald-950 text-emerald-400 border-emerald-900' 
                             : netUnpaidBalance < 0 
                             ? 'bg-rose-950 text-rose-400 border-rose-900' 
                             : 'bg-zinc-950 text-zinc-500 border-zinc-805'
                         }`}>
-                          {netUnpaidBalance > 0 ? 'Repayment Pending' : netUnpaidBalance < 0 ? 'Debt Pending' : 'Cleared'}
+                          {netUnpaidBalance > 0 ? 'Pending repayment' : netUnpaidBalance < 0 ? 'Pending debt' : 'Completely Cleared'}
                         </span>
                       </div>
                       
                       <div className="mt-3">
-                        <div className={`text-3.5xl font-black font-mono font-bold ${
+                        <div className={`text-3.5xl font-black font-mono tracking-tight leading-none ${
                           netUnpaidBalance > 0 ? 'text-emerald-400' : netUnpaidBalance < 0 ? 'text-rose-400' : 'text-zinc-200'
                         }`}>
                           ₹{Math.abs(netUnpaidBalance).toLocaleString('en-IN')}
                         </div>
                         
-                        <p className="text-[11px] text-zinc-500 mt-1 lines-clamp-2">
+                        <p className="text-[11px] text-zinc-405 mt-1.5 leading-relaxed">
                           {netUnpaidBalance > 0 
-                            ? `${selectedPerson} owes you this remaining amount.`
+                            ? `${selectedPerson} owes you this outstanding split amount.`
                             : netUnpaidBalance < 0 
-                            ? `You owe secondary balance to ${selectedPerson}.`
-                            : 'All transactions are completely mutual and settled.'}
+                            ? `You owe this outstanding split amount to ${selectedPerson}.`
+                            : 'Awesome! All mutual accounts are settled perfectly.'}
                         </p>
                       </div>
 
@@ -1824,45 +2590,45 @@ export default function App() {
                     </div>
 
                     {/* Paid/Spent (Debits) card */}
-                    <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-850 flex flex-col justify-between min-h-[155px]">
+                    <div className="p-6 rounded-3xl glass-card border border-zinc-850/80 flex flex-col justify-between min-h-[160px] transition-all duration-300 hover:scale-[1.01] hover:border-rose-500/10">
                       <div>
-                        <span className="text-[10px] font-bold text-zinc-400 tracking-wider uppercase block font-mono">Deposits & Outlays (Debits)</span>
-                        <span className="text-[10px] text-zinc-500">Money given / spent on contact or party</span>
+                        <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase block font-mono">My outlays (Debits)</span>
+                        <span className="text-[10px] text-zinc-500">Total money lent or spent on {selectedPerson}</span>
                       </div>
                       <div className="mt-4">
-                        <div className="text-2.5xl font-black text-rose-400 font-mono">
+                        <div className="text-3xl font-black text-rose-400 font-mono tracking-tight">
                           - ₹{debitsSum.toLocaleString('en-IN')}
                         </div>
-                        <p className="text-xs text-zinc-500 mt-1.5">{personTxs.filter(t => t.type === TransactionType.DEBIT).length} payments registered</p>
+                        <p className="text-xs text-zinc-500 font-semibold mt-1">{personTxs.filter(t => t.type === TransactionType.DEBIT).length} outlays registered</p>
                       </div>
                     </div>
 
                     {/* Received (Credits) card */}
-                    <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-850 flex flex-col justify-between min-h-[155px]">
+                    <div className="p-6 rounded-3xl glass-card border border-zinc-850/80 flex flex-col justify-between min-h-[160px] transition-all duration-300 hover:scale-[1.01] hover:border-emerald-500/10">
                       <div>
-                        <span className="text-[10px] font-bold text-zinc-400 tracking-wider uppercase block font-mono">Receipts & Cleared (Credits)</span>
-                        <span className="text-[10px] text-zinc-500">Repayments received or income got from them</span>
+                        <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase block font-mono">Repayments (Credits)</span>
+                        <span className="text-[10px] text-zinc-500">Repayments cleared or income from them</span>
                       </div>
                       <div className="mt-4">
-                        <div className="text-2.5xl font-black text-emerald-400 font-mono">
+                        <div className="text-3xl font-black text-emerald-400 font-mono tracking-tight">
                           + ₹{creditsSum.toLocaleString('en-IN')}
                         </div>
-                        <p className="text-xs text-zinc-500 mt-1.5">{personTxs.filter(t => t.type === TransactionType.CREDIT).length} repayments registered</p>
+                        <p className="text-xs text-zinc-500 font-semibold mt-1">{personTxs.filter(t => t.type === TransactionType.CREDIT).length} settlements registered</p>
                       </div>
                     </div>
 
                   </div>
 
                   {/* Pre-populated Smart natural language invoice container */}
-                  <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-850 shadow-xl relative overflow-hidden">
+                  <div className="p-6 rounded-3xl glass-card border border-zinc-850/80 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-44 h-44 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
                     <div>
-                      <h4 className="text-xs font-bold text-zinc-350 uppercase tracking-widest flex items-center gap-1.5 font-mono">
-                        <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
-                        PRE-CONFIGURED SMART STATEMENT INJECTOR
+                      <h4 className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2 font-display">
+                        <Sparkles className="w-5 h-5 text-emerald-400 animate-pulse" />
+                        AI Split Assistant for {selectedPerson}
                       </h4>
-                      <p className="text-[11.5px] text-zinc-500 mt-1 leading-relaxed">
-                        Input casual comments specifically for <strong>{selectedPerson}</strong>. The system will automatically link the participant and category.
+                      <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                        Input casual comments specifically for <strong>{selectedPerson}</strong>. The assistant will automatically associate the contact and split category.
                       </p>
                     </div>
 
@@ -2063,6 +2829,79 @@ export default function App() {
                 OK
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Scanned Results Multi-Add Success Modal overlay */}
+      {showScanSuccessModal && (
+        <div id="modal-scan-success" className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-zinc-900 border border-emerald-500/30 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-5 animate-scaleUp">
+            
+            {/* Modal Header */}
+            <div className="flex items-start justify-between border-b border-zinc-850 pb-4">
+              <div className="space-y-1">
+                <h3 className="text-sm font-extrabold text-white flex items-center gap-2 uppercase tracking-wider font-mono">
+                  <CheckCircle className="w-5 h-5 text-emerald-400" />
+                  Analysis Successful: Ledger Synchronized
+                </h3>
+                <p className="text-xs text-zinc-400">
+                  Gemini multimodal OCR has processed your paper scan and automatically added the following {scannedTxs.length} records chronologically.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowScanSuccessModal(false)}
+                className="p-1 px-1.5 bg-zinc-950 border border-zinc-800 text-zinc-500 hover:text-white rounded-lg text-xs cursor-pointer flex items-center justify-center"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Scanned Table listing */}
+            <div className="max-h-80 overflow-y-auto space-y-4 pr-2 divide-y divide-zinc-850">
+              {scannedTxs.map((item, idx) => (
+                <div key={item.id} className="pt-4 first:pt-0 flex items-center justify-between gap-4 text-xs">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`px-2 py-0.5 rounded-lg font-mono text-[9px] uppercase font-bold ${
+                        item.type === TransactionType.CREDIT
+                          ? 'bg-emerald-950/60 border border-emerald-900/60 text-emerald-400'
+                          : 'bg-rose-950/60 border border-rose-900/60 text-rose-400'
+                      }`}>
+                        {item.type}
+                      </span>
+                      <span className="font-semibold text-zinc-300">
+                        Date: {new Date(item.timestamp).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className="font-bold text-zinc-100">{item.notes}</p>
+                    <div className="text-[10px] text-zinc-500 flex items-center gap-3 font-mono">
+                      <span>Party: <strong className="text-zinc-400 font-medium">{item.party}</strong></span>
+                      <span>•</span>
+                      <span>Category: <strong className="text-zinc-400 font-medium">{item.category}</strong></span>
+                    </div>
+                  </div>
+                  <div className={`font-mono font-black text-sm text-right leading-none ${
+                    item.type === TransactionType.CREDIT ? 'text-emerald-400' : 'text-rose-400'
+                  }`}>
+                    {item.type === TransactionType.CREDIT ? '+' : '-'} ₹{item.amount.toLocaleString('en-IN', { minimumFractionDigits: 0 })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-zinc-850">
+              <button
+                type="button"
+                onClick={() => setShowScanSuccessModal(false)}
+                className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-450 text-zinc-950 font-black text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md shadow-emerald-950/20"
+              >
+                Excellent, View on Ledger
+              </button>
+            </div>
+
           </div>
         </div>
       )}

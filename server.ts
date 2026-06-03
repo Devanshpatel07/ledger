@@ -14,7 +14,9 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
+// Set payload limits high enough for base64 camera scans and receipt photo uploads
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Initialize Gemini AI Client lazily & safely
 let aiClient: GoogleGenAI | null = null;
@@ -243,6 +245,103 @@ Important instructions:
       success: true,
       parserUsed: "Local Parsing Engine (Fallback)",
       fallbackNotice: true
+    });
+  }
+});
+
+// Endpoint to Scan and Parse transaction documents/ledgers from images
+app.post("/api/scan-paper-ledger", async (req, res) => {
+  const { imageBase64, mimeType } = req.body;
+
+  if (!imageBase64 || typeof imageBase64 !== "string" || !mimeType) {
+    return res.status(400).json({ error: "Missing imageBase64 or mimeType representation" });
+  }
+
+  console.log(`Scanning paper ledger image with MIME type: "${mimeType}"`);
+
+  const gemini = getGeminiClient();
+
+  if (!gemini) {
+    console.log("No Gemini API key detected for multimodal parsing.");
+    return res.status(400).json({
+      error: "Cloud scanning is unavailable as no valid Gemini API key is configured in the environment. Please configure the GEMINI_API_KEY."
+    });
+  }
+
+  try {
+    const imagePart = {
+      inlineData: {
+        mimeType: mimeType,
+        data: imageBase64
+      },
+    };
+
+    const systemPrompt = `You are an expert financial ledger OCR assistant.
+Analyze the provided image of a receipt, handwritten log, invoice, statement, or transaction diary page.
+Scan and extract all readable financial transactions from it.
+
+For each transaction, extract:
+1. Amount ('amount'): High precision index numbers representing the cost or volume. MUST be a positive number.
+2. Type ('type'): Must be exactly 'Credit' (money entry came in: salary, received, got, capital, borrowed, cash-in) or 'Debit' (money spent: paid, dinner, expenses, bills, purchase, lent).
+3. Party ('party'): Recipient or sender business name, person name, or entity. If none can be clearly seen or discerned, default to 'Self'.
+4. Category ('category'): Must be exactly one of: 'Dining', 'Groceries', 'Rent', 'Salary', 'Utilities', 'Shopping', 'Travel', 'Entertainment', 'Medical', 'Gifts', 'Investment', 'Other'. Map to the closest matching option based on the vendor or purchase type.
+5. Notes ('notes'): A descriptive text sum-up of what is seen on the paper for this entry (e.g. details, items bought, or purpose).
+6. Date ('date'): Chronological date formatted as YYYY-MM-DD. If a specific year is missing but a month and day are present, assume the current calendar year (2026). If no date can be identified at all for the entry, default to the current date "2026-06-03".
+
+Return your response as a structured JSON object with a 'transactions' array matching the specified schema.`;
+
+    const response = await gemini.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: {
+        parts: [
+          imagePart,
+          { text: "Extract all financial transaction details from this ledger or receipt/bill paper." }
+        ]
+      },
+      config: {
+        systemInstruction: systemPrompt,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            transactions: {
+              type: Type.ARRAY,
+              description: "Array of extracted transaction records.",
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  amount: { type: Type.NUMBER, description: "Currency positive amount." },
+                  type: { type: Type.STRING, description: "Must be 'Credit' or 'Debit'." },
+                  party: { type: Type.STRING, description: "Merchant, person, contact name or Self." },
+                  category: { type: Type.STRING, description: "Category of transaction." },
+                  notes: { type: Type.STRING, description: "Extra notes detailing the line item." },
+                  date: { type: Type.STRING, description: "Date of transaction formatted as YYYY-MM-DD." }
+                },
+                required: ["amount", "type", "party", "category", "notes", "date"]
+              }
+            }
+          },
+          required: ["transactions"]
+        }
+      }
+    });
+
+    if (!response.text) {
+      throw new Error("No text response from Gemini API scanning process.");
+    }
+
+    const parsedData = JSON.parse(response.text.trim());
+    console.log("Successfully scanned and parsed image transactions:", parsedData);
+
+    return res.json({
+      transactions: Array.isArray(parsedData.transactions) ? parsedData.transactions : [],
+      success: true
+    });
+
+  } catch (error: any) {
+    console.error("Gemini image scanning failed:", error.message || error);
+    return res.status(500).json({
+      error: `Gemini image parsing failed: ${error.message || error}`
     });
   }
 });
