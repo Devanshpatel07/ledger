@@ -1668,8 +1668,9 @@ export default function App() {
                       <p className={`text-sm font-bold ${theme === 'dark' ? 'text-zinc-200' : 'text-zinc-700'}`}>Drag and drop paper, logs or bills here</p>
                       <p className={`text-xs ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-550'}`}>or click to choose device photos/scans</p>
                     </div>
-                    <div className={`text-[10px] font-mono ${theme === 'dark' ? 'text-zinc-650' : 'text-zinc-450'}`}>
-                      Compatible types: PNG, JPG, JPEG, WEBP (Max 10MB)
+                    <div className={`text-[10px] font-mono leading-relaxed text-center ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-455 font-bold'}`}>
+                      Compatible types: PNG, JPG, JPEG, WEBP (Max 10MB)<br/>
+                      <span className="text-emerald-500 font-extrabold font-sans">★ Fully reads & OCRs Hindi, Hinglish, & Devanagari Bills</span>
                     </div>
                   </label>
                 )}
@@ -2224,22 +2225,28 @@ export default function App() {
         
         {/* Smart Entry Draft review modal */}
         {showReviewModal && (
-          <div id="modal-review-transaction-people" className="p-6 rounded-2xl bg-zinc-900 border border-emerald-500/40 relative shadow-2xl transition-all animate-fadeIn">
+          <div id="modal-review-transaction-people" className={`p-6 rounded-2xl relative shadow-2xl transition-all animate-fadeIn border ${
+            theme === 'dark' ? 'bg-zinc-900 border-emerald-500/40' : 'bg-white border-zinc-200 shadow-zinc-200/50'
+          }`}>
             <div className="absolute top-2 right-2">
               <button 
                 id="btn-close-review-people"
                 onClick={() => setShowReviewModal(false)}
-                className="p-1 px-[5px] bg-zinc-950 border border-zinc-800 text-zinc-400 hover:text-white rounded-lg text-xs cursor-pointer"
+                className={`p-1 px-[5px] border rounded-lg text-xs cursor-pointer transition-colors ${
+                  theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-500 hover:text-zinc-800'
+                }`}
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="flex items-center gap-2.5 text-emerald-400 font-bold tracking-wider text-xs uppercase mb-4">
+            <div className="flex items-center gap-2.5 text-emerald-500 font-bold tracking-wider text-xs uppercase mb-4">
               <Sparkles className="w-4 h-4 animate-pulse" />
               Parsed Ledger Draft Review
               {parserNotice && (
-                <span className="text-[10px] tracking-normal font-mono bg-emerald-950 border border-emerald-800 text-emerald-400 px-2 py-0.5 rounded ml-2">
+                <span className={`text-[10px] tracking-normal font-mono px-2 py-0.5 rounded ml-2 border ${
+                  theme === 'dark' ? 'bg-emerald-950/80 border-emerald-800/40 text-emerald-400' : 'bg-emerald-50 border-emerald-250/50 text-emerald-700'
+                }`}>
                   {parserNotice}
                 </span>
               )}
@@ -2247,23 +2254,27 @@ export default function App() {
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Amount (INR)</label>
+                <label className={`text-[10px] uppercase tracking-widest font-mono ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-450 font-bold'}`}>Amount (INR)</label>
                 <input
                   id="inp-review-amount-p"
                   type="number"
                   value={manualAmount}
                   onChange={(e) => setManualAmount(Number(e.target.value))}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-white border-zinc-250 text-zinc-800'
+                  }`}
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Type</label>
+                <label className={`text-[10px] uppercase tracking-widest font-mono ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-450 font-bold'}`}>Type</label>
                 <select
                   id="inp-review-type-p"
                   value={manualType}
                   onChange={(e) => setManualType(e.target.value as TransactionType)}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full cursor-pointer"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full cursor-pointer transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-white border-zinc-250 text-zinc-800'
+                  }`}
                 >
                   <option value={TransactionType.DEBIT}>Debit (Paid / Spent)</option>
                   <option value={TransactionType.CREDIT}>Credit (Received / Repaid)</option>
@@ -2271,23 +2282,27 @@ export default function App() {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Party / Name</label>
+                <label className={`text-[10px] uppercase tracking-widest font-mono ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-450 font-bold'}`}>Party / Name</label>
                 <input
                   id="inp-review-party-p"
                   type="text"
                   value={manualParty}
                   onChange={(e) => setManualParty(e.target.value)}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-white border-zinc-250 text-zinc-800'
+                  }`}
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Category</label>
+                <label className={`text-[10px] uppercase tracking-widest font-mono ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-450 font-bold'}`}>Category</label>
                 <select
                   id="inp-review-category-p"
                   value={manualCategory}
                   onChange={(e) => setManualCategory(e.target.value)}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full cursor-pointer"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full cursor-pointer transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-white border-zinc-250 text-zinc-805'
+                  }`}
                 >
                   {categoriesList.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
@@ -2296,29 +2311,33 @@ export default function App() {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Notes Context</label>
+                <label className={`text-[10px] uppercase tracking-widest font-mono ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-450 font-bold'}`}>Notes Context</label>
                 <input
                   id="inp-review-notes-p"
                   type="text"
                   value={manualNotes}
                   onChange={(e) => setManualNotes(e.target.value)}
-                  className="bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-sm text-zinc-200 outline-none w-full"
+                  className={`border focus:border-emerald-500 rounded-xl px-3 py-2 text-sm outline-none w-full transition-colors ${
+                    theme === 'dark' ? 'bg-zinc-950 border-zinc-800 text-zinc-200' : 'bg-white border-zinc-250 text-zinc-800'
+                  }`}
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-zinc-850">
+            <div className={`flex items-center justify-end gap-3 mt-4 pt-3 border-t ${theme === 'dark' ? 'border-zinc-850' : 'border-zinc-150'}`}>
               <button
                 id="btn-review-cancel-p"
                 onClick={() => setShowReviewModal(false)}
-                className="px-4 py-2 bg-transparent hover:bg-zinc-800 text-zinc-400 rounded-lg text-xs cursor-pointer transition-colors"
+                className={`px-4 py-2 bg-transparent rounded-lg text-xs cursor-pointer transition-colors ${
+                  theme === 'dark' ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'
+                }`}
               >
                 Discard Draft
               </button>
               <button
                 id="btn-review-save-p"
                 onClick={saveTransaction}
-                className="px-5 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-lg text-xs font-black flex items-center gap-1 cursor-pointer transition-all"
+                className="px-5 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-lg text-xs font-black flex items-center gap-1 cursor-pointer transition-all shadow-md shadow-emerald-500/10"
               >
                 <CheckCircle className="w-4 h-4" />
                 Approve & Save Entry
@@ -2332,19 +2351,33 @@ export default function App() {
           <div className="space-y-6">
             
             {/* Header & New Profile creator panel */}
-            <div className="glass-card p-6 rounded-3xl shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+            <div className={`p-6 rounded-3xl shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden border ${
+              theme === 'dark' 
+                ? 'glass-card border-zinc-850 shadow-black/50 text-white' 
+                : 'glass-card-light border-zinc-200 shadow-zinc-200/50 text-zinc-800'
+            }`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl" />
               <div className="space-y-1">
-                <h2 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 font-display">
-                  <span className="p-1 px-2 bg-emerald-955/10 text-emerald-400 font-mono rounded border border-emerald-900/40 text-[10px]">Active</span>
+                <h2 className={`text-sm font-black uppercase tracking-wider flex items-center gap-2 font-display ${
+                  theme === 'dark' ? 'text-white' : 'text-zinc-850'
+                }`}>
+                  <span className={`p-1 px-2 font-mono rounded text-[10px] border ${
+                    theme === 'dark' ? 'bg-emerald-955/10 text-emerald-400 border-emerald-900/40' : 'bg-emerald-50 text-emerald-700 border-emerald-250/50'
+                  }`}>
+                    Active
+                  </span>
                   Social mates & portfolios
                 </h2>
-                <p className="text-xs text-zinc-400 leading-relaxed max-w-md">Initialize profile portfolios for your flatmates, dining buddies, or travel groups to see net balances at a glance.</p>
+                <p className={`text-xs leading-relaxed max-w-md ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                  Initialize profile portfolios for your flatmates, dining buddies, or travel groups to see net balances at a glance.
+                </p>
               </div>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
                 {/* Search Field */}
-                <div className="relative flex items-center bg-zinc-950 border border-zinc-805 rounded-xl px-3 py-2.5 text-xs focus-within:border-emerald-500 transition-colors">
+                <div className={`relative flex items-center border rounded-xl px-3 py-2.5 text-xs transition-colors focus-within:border-emerald-500 ${
+                  theme === 'dark' ? 'bg-zinc-950 border-zinc-805' : 'bg-white border-zinc-250'
+                }`}>
                   <Search className="w-3.5 h-3.5 text-zinc-500 mr-2 shrink-0" />
                   <input
                     id="txt-search-contacts"
@@ -2352,12 +2385,16 @@ export default function App() {
                     placeholder="Search mates..."
                     value={searchContactQuery}
                     onChange={(e) => setSearchContactQuery(e.target.value)}
-                    className="bg-transparent border-none focus:outline-none placeholder-zinc-550 text-zinc-200 text-xs w-44 font-semibold"
+                    className={`bg-transparent border-none focus:outline-none placeholder-zinc-550 text-xs w-44 font-semibold ${
+                      theme === 'dark' ? 'text-zinc-200' : 'text-zinc-700'
+                    }`}
                   />
                 </div>
 
                 {/* Quick Add Name Input */}
-                <div className="flex items-center bg-zinc-950 border border-zinc-805 focus-within:border-emerald-500 rounded-xl p-1 transition-colors">
+                <div className={`flex items-center border rounded-xl p-1 transition-colors focus-within:border-emerald-500 ${
+                  theme === 'dark' ? 'bg-zinc-950 border-zinc-805' : 'bg-white border-zinc-250'
+                }`}>
                   <input
                     id="txt-create-contact-name"
                     type="text"
@@ -2367,7 +2404,9 @@ export default function App() {
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') handleCreateNewPerson();
                     }}
-                    className="bg-transparent px-3 py-2 text-xs text-zinc-200 outline-none placeholder-zinc-550 w-36 font-semibold"
+                    className={`bg-transparent px-3 py-2 text-xs outline-none placeholder-zinc-550 w-36 font-semibold ${
+                      theme === 'dark' ? 'text-zinc-200' : 'text-zinc-700'
+                    }`}
                   />
                   <button
                     id="btn-create-contact-submit"
@@ -2396,9 +2435,11 @@ export default function App() {
 
               if (combinedParties.length === 0) {
                 return (
-                  <div className="p-16 text-center bg-zinc-900 border border-zinc-850 rounded-2xl animate-fadeIn">
-                    <Users className="w-10 h-10 text-zinc-700 mx-auto mb-3" />
-                    <p className="text-zinc-300 font-bold text-sm">No personal portfolios match your search</p>
+                  <div className={`p-16 text-center rounded-2xl animate-fadeIn border ${
+                    theme === 'dark' ? 'bg-zinc-900 border-zinc-850 text-zinc-300' : 'bg-zinc-50 border-zinc-200 text-zinc-705'
+                  }`}>
+                    <Users className="w-10 h-10 text-zinc-500 mx-auto mb-3" />
+                    <p className={`font-bold text-sm ${theme === 'dark' ? 'text-zinc-300' : 'text-zinc-800'}`}>No personal portfolios match your search</p>
                     <p className="text-xs text-zinc-500 mt-1">Add a profile name in the input box above to launch a new ledger page automatically.</p>
                   </div>
                 );
@@ -2416,7 +2457,11 @@ export default function App() {
                       <div 
                         key={person} 
                         id={`person-card-${person}`}
-                        className="glass-card border border-zinc-850/80 hover:border-emerald-500/20 p-6 rounded-3xl flex flex-col justify-between space-y-5 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+                        className={`p-6 rounded-3xl flex flex-col justify-between space-y-5 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer group border ${
+                          theme === 'dark' 
+                            ? 'glass-card border-zinc-850/80 hover:border-emerald-500/20' 
+                            : 'glass-card-light border-zinc-200 hover:border-emerald-500/20 shadow-zinc-200/40 text-zinc-800'
+                        }`}
                         onClick={() => setSelectedPerson(person)}
                       >
                         <div className="flex items-start justify-between gap-2">
@@ -2426,17 +2471,25 @@ export default function App() {
                               {person.charAt(0)}
                             </div>
                             <div>
-                              <h3 className="font-extrabold text-white text-sm group-hover:text-emerald-400 transition-colors leading-tight">{person}</h3>
-                              <p className="text-[10px] text-zinc-500 mt-1">{personTxs.length} logged events</p>
+                              <h3 className={`font-extrabold text-sm group-hover:text-emerald-500 transition-colors leading-tight ${
+                                theme === 'dark' ? 'text-white' : 'text-zinc-800'
+                              }`}>{person}</h3>
+                              <p className={`text-[10px] mt-1 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400 font-bold'}`}>{personTxs.length} logged events</p>
                             </div>
                           </div>
 
                           <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border font-mono ${
                             netUnpaidBalance > 0 
-                              ? 'bg-emerald-950/65 text-emerald-400 border-emerald-900/60' 
+                              ? theme === 'dark'
+                                ? 'bg-emerald-950/65 text-emerald-400 border-emerald-900/60' 
+                                : 'bg-emerald-50 text-emerald-700 border-emerald-200'
                               : netUnpaidBalance < 0 
-                              ? 'bg-rose-955/20 text-rose-350 border-rose-900/40' 
-                              : 'bg-zinc-950 text-zinc-400 border-zinc-850'
+                              ? theme === 'dark'
+                                ? 'bg-rose-955/20 text-rose-355 border-rose-900/40' 
+                                : 'bg-rose-50 text-rose-700 border-rose-200'
+                              : theme === 'dark'
+                              ? 'bg-zinc-950 text-zinc-400 border-zinc-850'
+                              : 'bg-zinc-100 text-zinc-500 border-zinc-200'
                           }`}>
                             {netUnpaidBalance > 0 
                               ? 'Owed to you' 
@@ -2447,16 +2500,22 @@ export default function App() {
                         </div>
 
                         {/* Balance metrics */}
-                        <div className="bg-zinc-950/70 border border-zinc-900 p-4 rounded-2xl space-y-2.5 shadow-inner">
-                          <div className="flex items-center justify-between text-xs text-zinc-400 font-bold">
+                        <div className={`p-4 rounded-2xl space-y-2.5 shadow-inner border ${
+                          theme === 'dark' ? 'bg-zinc-950/70 border-zinc-900' : 'bg-zinc-50/70 border-zinc-200'
+                        }`}>
+                          <div className={`flex items-center justify-between text-xs font-bold ${
+                            theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'
+                          }`}>
                             <span>Outstanding:</span>
                             <span className={`font-black text-xs font-mono ${
-                              netUnpaidBalance > 0 ? 'text-emerald-400' : netUnpaidBalance < 0 ? 'text-rose-450' : 'text-zinc-450'
+                              netUnpaidBalance > 0 ? 'text-emerald-500' : netUnpaidBalance < 0 ? 'text-rose-500' : (theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500')
                             }`}>
                               {netUnpaidBalance > 0 ? '+' : ''}₹{netUnpaidBalance.toLocaleString('en-IN')}
                             </span>
                           </div>
-                          <div className="flex items-center justify-between text-[10px] text-zinc-500 border-t border-zinc-900 pt-2 font-mono">
+                          <div className={`flex items-center justify-between text-[10px] border-t pt-2 font-mono ${
+                            theme === 'dark' ? 'text-zinc-500 border-zinc-900' : 'text-zinc-450 border-zinc-200 font-bold'
+                          }`}>
                             <span>Deposited: ₹{debitsSum.toLocaleString('en-IN')}</span>
                             <span>Cleared: ₹{creditsSum.toLocaleString('en-IN')}</span>
                           </div>
@@ -2464,7 +2523,11 @@ export default function App() {
 
                         <button
                           id={`person-view-btn-${person}`}
-                          className="w-full text-center py-2.5 bg-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 text-zinc-300 group-hover:text-white rounded-xl border border-zinc-850 text-[11px] font-black transition-all tracking-wider uppercase font-mono"
+                          className={`w-full text-center py-2.5 rounded-xl text-[11px] font-black transition-all tracking-wider uppercase font-mono border ${
+                            theme === 'dark'
+                              ? 'bg-zinc-950 hover:bg-emerald-500 hover:text-zinc-950 text-zinc-300 border-zinc-850'
+                              : 'bg-white hover:bg-emerald-500 hover:text-zinc-950 text-zinc-700 border-zinc-250 shadow-sm'
+                          }`}
                         >
                           View Ledger Page &rarr;
                         </button>
@@ -2481,12 +2544,18 @@ export default function App() {
           <div id={`person-page-detail-${selectedPerson}`} className="space-y-6">
             
             {/* Back header navigation bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-3 border-b border-zinc-900">
+            <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-3 border-b ${
+              theme === 'dark' ? 'border-zinc-900' : 'border-zinc-250'
+            }`}>
               <div className="flex items-center gap-3">
                 <button
                   id="btn-person-back-to-directory"
                   onClick={() => setSelectedPerson(null)}
-                  className="p-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-xl border border-zinc-805 transition-colors cursor-pointer"
+                  className={`p-2.5 rounded-xl border transition-colors cursor-pointer ${
+                    theme === 'dark'
+                      ? 'bg-zinc-900 hover:bg-zinc-805 text-zinc-400 hover:text-white border-zinc-805'
+                      : 'bg-white hover:bg-zinc-50 text-zinc-500 hover:text-zinc-850 border-zinc-200'
+                  }`}
                   title="Return to Directory"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -2496,9 +2565,11 @@ export default function App() {
                     <div className={`w-6 h-6 rounded-md bg-gradient-to-br ${getAvatarColor(selectedPerson)} flex items-center justify-center font-bold text-2xs uppercase shadow-inner`}>
                       {selectedPerson.charAt(0)}
                     </div>
-                    <span className="text-[10px] text-emerald-400 uppercase tracking-widest font-mono font-bold">Portfolios Directory</span>
+                    <span className="text-[10px] text-emerald-555 uppercase tracking-widest font-mono font-black">Portfolios Directory</span>
                   </div>
-                  <h2 className="text-xl font-extrabold text-white tracking-tight flex items-center gap-2 mt-0.5">
+                  <h2 className={`text-xl font-extrabold tracking-tight flex items-center gap-2 mt-0.5 ${
+                    theme === 'dark' ? 'text-white' : 'text-zinc-800'
+                  }`}>
                     {selectedPerson}'s Private Ledger Account
                   </h2>
                 </div>
@@ -2518,7 +2589,11 @@ export default function App() {
                       { confirmText: "Remove Page", isDestructive: true }
                     );
                   }}
-                  className="px-3 py-1.5 rounded-lg border border-transparent hover:border-rose-955 text-xs text-zinc-500 hover:text-rose-455 hover:bg-rose-950/20 transition-all cursor-pointer font-medium"
+                  className={`px-3 py-1.5 rounded-lg border transition-all cursor-pointer font-semibold text-xs ${
+                    theme === 'dark'
+                      ? 'border-transparent hover:border-rose-900 text-zinc-500 hover:text-rose-405 hover:bg-rose-955/20'
+                      : 'border-transparent hover:border-rose-200 text-zinc-500 hover:text-rose-700 hover:bg-rose-50'
+                  }`}
                 >
                   Remove portfolio page
                 </button>
@@ -2543,19 +2618,33 @@ export default function App() {
                     {/* Position standing card */}
                     <div className={`p-6 rounded-3xl border flex flex-col justify-between min-h-[160px] relative overflow-hidden transition-all duration-300 hover:scale-[1.01] ${
                       netUnpaidBalance > 0 
-                        ? 'bg-emerald-950/25 border-emerald-500/25 shadow-xl shadow-emerald-500/5' 
+                        ? theme === 'dark'
+                          ? 'bg-emerald-950/25 border-emerald-500/25 shadow-xl shadow-emerald-500/5' 
+                          : 'bg-emerald-50/50 border-emerald-200 shadow-xl shadow-emerald-100'
                         : netUnpaidBalance < 0 
-                        ? 'bg-rose-950/25 border-rose-500/25 shadow-xl shadow-rose-500/5' 
-                        : 'glass-card border-zinc-800'
+                        ? theme === 'dark'
+                          ? 'bg-rose-950/25 border-rose-500/25 shadow-xl shadow-rose-500/5' 
+                          : 'bg-rose-50/50 border-rose-200 shadow-xl shadow-rose-100'
+                        : theme === 'dark'
+                        ? 'glass-card border-zinc-800'
+                        : 'glass-card-light border-zinc-200'
                     }`}>
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase font-mono">Ledger Position standing</span>
+                        <span className={`text-[10px] font-black tracking-widest uppercase font-mono ${
+                          theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'
+                        }`}>Ledger Position standing</span>
                         <span className={`text-[9px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-widest border font-mono ${
                           netUnpaidBalance > 0 
-                            ? 'bg-emerald-950 text-emerald-400 border-emerald-900' 
+                            ? theme === 'dark'
+                              ? 'bg-emerald-950 text-emerald-400 border-emerald-900' 
+                              : 'bg-emerald-100 text-emerald-850 border-emerald-250/50'
                             : netUnpaidBalance < 0 
-                            ? 'bg-rose-950 text-rose-400 border-rose-900' 
-                            : 'bg-zinc-950 text-zinc-500 border-zinc-805'
+                            ? theme === 'dark'
+                              ? 'bg-rose-950 text-rose-400 border-rose-900' 
+                              : 'bg-rose-100 text-rose-850 border-rose-250/50'
+                            : theme === 'dark'
+                            ? 'bg-zinc-950 text-zinc-500 border-zinc-805'
+                            : 'bg-zinc-100 text-zinc-555 border-zinc-200'
                         }`}>
                           {netUnpaidBalance > 0 ? 'Pending repayment' : netUnpaidBalance < 0 ? 'Pending debt' : 'Completely Cleared'}
                         </span>
@@ -2563,12 +2652,14 @@ export default function App() {
                       
                       <div className="mt-3">
                         <div className={`text-3.5xl font-black font-mono tracking-tight leading-none ${
-                          netUnpaidBalance > 0 ? 'text-emerald-400' : netUnpaidBalance < 0 ? 'text-rose-400' : 'text-zinc-200'
+                          netUnpaidBalance > 0 ? 'text-emerald-500' : netUnpaidBalance < 0 ? 'text-rose-500' : (theme === 'dark' ? 'text-zinc-200' : 'text-zinc-800')
                         }`}>
                           ₹{Math.abs(netUnpaidBalance).toLocaleString('en-IN')}
                         </div>
                         
-                        <p className="text-[11px] text-zinc-405 mt-1.5 leading-relaxed">
+                        <p className={`text-[11px] mt-1.5 leading-relaxed ${
+                          theme === 'dark' ? 'text-zinc-405' : 'text-zinc-600 font-medium'
+                        }`}>
                           {netUnpaidBalance > 0 
                             ? `${selectedPerson} owes you this outstanding split amount.`
                             : netUnpaidBalance < 0 
@@ -2582,7 +2673,11 @@ export default function App() {
                         <button
                           id="btn-quick-settle-action"
                           onClick={() => handleQuickSettle(selectedPerson, netUnpaidBalance)}
-                          className="mt-4 py-2.5 bg-zinc-950 hover:bg-emerald-500 text-zinc-300 hover:text-zinc-950 rounded-xl text-center text-xs font-black border border-zinc-800 hover:border-emerald-500 transition-colors uppercase tracking-wider font-mono cursor-pointer"
+                          className={`mt-4 py-2.5 rounded-xl text-center text-xs font-black border transition-colors uppercase tracking-wider font-mono cursor-pointer ${
+                            theme === 'dark' 
+                              ? 'bg-zinc-950 hover:bg-emerald-500 text-zinc-300 hover:text-zinc-950 border-zinc-800' 
+                              : 'bg-white hover:bg-emerald-500 hover:text-zinc-950 text-zinc-700 border-zinc-200 hover:border-emerald-500 shadow-sm'
+                          }`}
                         >
                           Auto Settle Outstanding Balance &rarr;
                         </button>
@@ -2590,49 +2685,67 @@ export default function App() {
                     </div>
 
                     {/* Paid/Spent (Debits) card */}
-                    <div className="p-6 rounded-3xl glass-card border border-zinc-850/80 flex flex-col justify-between min-h-[160px] transition-all duration-300 hover:scale-[1.01] hover:border-rose-500/10">
+                    <div className={`p-6 rounded-3xl flex flex-col justify-between min-h-[160px] transition-all duration-300 hover:scale-[1.01] border ${
+                      theme === 'dark' 
+                        ? 'glass-card border-zinc-850/80 hover:border-rose-500/10' 
+                        : 'glass-card-light border-zinc-200 hover:border-rose-500/10 shadow-zinc-200/40 text-zinc-850'
+                    }`}>
                       <div>
-                        <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase block font-mono">My outlays (Debits)</span>
+                        <span className={`text-[10px] font-black tracking-widest uppercase block font-mono ${
+                          theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'
+                        }`}>My outlays (Debits)</span>
                         <span className="text-[10px] text-zinc-500">Total money lent or spent on {selectedPerson}</span>
                       </div>
                       <div className="mt-4">
-                        <div className="text-3xl font-black text-rose-400 font-mono tracking-tight">
+                        <div className={`text-3xl font-black font-mono tracking-tight ${theme === 'dark' ? 'text-rose-400' : 'text-rose-600'}`}>
                           - ₹{debitsSum.toLocaleString('en-IN')}
                         </div>
-                        <p className="text-xs text-zinc-500 font-semibold mt-1">{personTxs.filter(t => t.type === TransactionType.DEBIT).length} outlays registered</p>
+                        <p className={`text-xs font-semibold mt-1 ${theme === 'dark' ? 'text-zinc-550' : 'text-zinc-500'}`}>{personTxs.filter(t => t.type === TransactionType.DEBIT).length} outlays registered</p>
                       </div>
                     </div>
 
                     {/* Received (Credits) card */}
-                    <div className="p-6 rounded-3xl glass-card border border-zinc-850/80 flex flex-col justify-between min-h-[160px] transition-all duration-300 hover:scale-[1.01] hover:border-emerald-500/10">
+                    <div className={`p-6 rounded-3xl flex flex-col justify-between min-h-[160px] transition-all duration-300 hover:scale-[1.01] border ${
+                      theme === 'dark' 
+                        ? 'glass-card border-zinc-850/80 hover:border-emerald-500/10' 
+                        : 'glass-card-light border-zinc-200 hover:border-emerald-500/10 shadow-zinc-200/40 text-zinc-850'
+                    }`}>
                       <div>
-                        <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase block font-mono">Repayments (Credits)</span>
+                        <span className={`text-[10px] font-black tracking-widest uppercase block font-mono ${
+                          theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'
+                        }`}>Repayments (Credits)</span>
                         <span className="text-[10px] text-zinc-500">Repayments cleared or income from them</span>
                       </div>
                       <div className="mt-4">
-                        <div className="text-3xl font-black text-emerald-400 font-mono tracking-tight">
+                        <div className={`text-3xl font-black font-mono tracking-tight ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-600'}`}>
                           + ₹{creditsSum.toLocaleString('en-IN')}
                         </div>
-                        <p className="text-xs text-zinc-500 font-semibold mt-1">{personTxs.filter(t => t.type === TransactionType.CREDIT).length} settlements registered</p>
+                        <p className={`text-xs font-semibold mt-1 ${theme === 'dark' ? 'text-zinc-550' : 'text-zinc-500'}`}>{personTxs.filter(t => t.type === TransactionType.CREDIT).length} settlements registered</p>
                       </div>
                     </div>
 
                   </div>
 
                   {/* Pre-populated Smart natural language invoice container */}
-                  <div className="p-6 rounded-3xl glass-card border border-zinc-850/80 shadow-2xl relative overflow-hidden">
+                  <div className={`p-6 rounded-3xl shadow-2xl relative overflow-hidden border ${
+                    theme === 'dark' ? 'glass-card border-zinc-850/80' : 'glass-card-light border-zinc-200 shadow-zinc-200/40'
+                  }`}>
                     <div className="absolute top-0 right-0 w-44 h-44 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
                     <div>
-                      <h4 className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2 font-display">
-                        <Sparkles className="w-5 h-5 text-emerald-400 animate-pulse" />
+                      <h4 className={`text-xs font-black uppercase tracking-wider flex items-center gap-2 font-display ${
+                        theme === 'dark' ? 'text-white' : 'text-zinc-800'
+                      }`}>
+                        <Sparkles className="w-5 h-5 text-emerald-555" />
                         AI Split Assistant for {selectedPerson}
                       </h4>
-                      <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                      <p className={`text-xs mt-1 leading-relaxed ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-650'}`}>
                         Input casual comments specifically for <strong>{selectedPerson}</strong>. The assistant will automatically associate the contact and split category.
                       </p>
                     </div>
 
-                    <div className="mt-4 relative flex items-center bg-zinc-950 border border-zinc-800 focus-within:border-emerald-500 rounded-xl p-1.5 shadow-inner transition-colors">
+                    <div className={`mt-4 relative flex items-center border rounded-xl p-1.5 shadow-inner transition-colors focus-within:border-emerald-500 ${
+                      theme === 'dark' ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-zinc-250'
+                    }`}>
                       <input
                         id="txt-person-smart-input"
                         type="text"
@@ -2642,7 +2755,9 @@ export default function App() {
                           if (e.key === 'Enter') handlePersonSmartParse(selectedPerson);
                         }}
                         placeholder={`e.g. Lent 400 for movie (Will force party association with ${selectedPerson})`}
-                        className="w-full bg-transparent px-3 py-2 text-xs text-zinc-100 outline-none focus:outline-none placeholder-zinc-500 font-medium"
+                        className={`w-full bg-transparent px-3 py-2 text-xs outline-none focus:outline-none placeholder-zinc-500 font-medium ${
+                          theme === 'dark' ? 'text-zinc-100' : 'text-zinc-805'
+                        }`}
                         disabled={isPersonParsing}
                       />
 
@@ -2665,37 +2780,48 @@ export default function App() {
                   </div>
 
                   {/* Transaction historical log specific to the select person portfolio */}
-                  <div className="bg-zinc-900 border border-zinc-850 rounded-2xl overflow-hidden shadow-2xl">
+                  <div className={`rounded-2xl overflow-hidden shadow-2xl border ${
+                    theme === 'dark' ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'
+                  }`}>
                     
-                    <div className="p-5 border-b border-zinc-850 bg-zinc-950 flex items-center justify-between">
+                    <div className={`p-5 border-b flex items-center justify-between ${
+                      theme === 'dark' ? 'border-zinc-850 bg-zinc-950' : 'border-zinc-150 bg-zinc-50/50'
+                    }`}>
                       <div>
-                        <h4 className="text-xs font-bold text-white uppercase tracking-widest font-mono">
+                        <h4 className={`text-xs font-bold uppercase tracking-widest font-mono ${
+                          theme === 'dark' ? 'text-white' : 'text-zinc-800'
+                        }`}>
                           Statement timeline log ({personTxs.length} items)
                         </h4>
                         <p className="text-[10px] text-zinc-500 mt-1">Independent historic transaction ledger specifically involving {selectedPerson}</p>
                       </div>
                     </div>
 
-                    <div className="divide-y divide-zinc-850">
+                    <div className={`divide-y ${theme === 'dark' ? 'divide-zinc-850' : 'divide-zinc-150'}`}>
                       {personTxs.length === 0 ? (
                         <div className="p-16 text-center text-zinc-500">
-                          <Info className="w-8 h-8 mx-auto mb-2 text-zinc-650" />
+                          <Info className="w-8 h-8 mx-auto mb-2 text-zinc-400" />
                           <p className="text-xs font-semibold">No transactions registered specifically for {selectedPerson}</p>
-                          <p className="text-[10px] text-zinc-500 mt-1">Use the pre-configured parsing field above to record a trade or debt repayment.</p>
+                          <p className="text-[10px] text-zinc-550 mt-1">Use the pre-configured parsing field above to record a trade or debt repayment.</p>
                         </div>
                       ) : (
                         personTxs.map((tx) => (
                           <div 
                             key={tx.id} 
                             id={`person-tx-row-${tx.id}`}
-                            className="p-4.5 flex items-center justify-between gap-4 hover:bg-zinc-950/40 transition-colors animate-fadeIn"
+                            className={`p-4.5 flex items-center justify-between gap-4 transition-colors animate-fadeIn ${
+                              theme === 'dark' ? 'hover:bg-zinc-950/40' : 'hover:bg-zinc-50'
+                            }`}
                           >
                             <div className="flex items-center gap-3.5">
-                              {/* Visual Indicator of Credit/Debit */}
                               <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 ${
                                 tx.type === TransactionType.CREDIT
-                                  ? 'bg-emerald-950/60 border-emerald-950 text-emerald-400'
-                                  : 'bg-rose-955/60 border-rose-955 text-rose-450'
+                                  ? theme === 'dark'
+                                    ? 'bg-emerald-955/60 border-emerald-900 text-emerald-450'
+                                    : 'bg-emerald-50 border-emerald-250/60 text-emerald-650'
+                                  : theme === 'dark'
+                                  ? 'bg-rose-955/60 border-rose-955 text-rose-450'
+                                  : 'bg-rose-50 border-rose-250/60 text-rose-650'
                               }`}>
                                 {tx.type === TransactionType.CREDIT ? (
                                   <ArrowDownLeft className="w-4 h-4" />
@@ -2705,12 +2831,16 @@ export default function App() {
                               </div>
 
                               <div>
-                                <span className="text-[10px] font-bold text-emerald-400 px-2 py-0.5 bg-zinc-950 border border-zinc-800 rounded-md uppercase font-mono tracking-wide">
+                                <span className={`text-[10px] font-black px-2 py-0.5 rounded-md uppercase font-mono tracking-wide ${
+                                  theme === 'dark'
+                                    ? 'bg-zinc-950 border border-zinc-800 text-emerald-400'
+                                    : 'bg-emerald-50 border border-emerald-200 text-emerald-705'
+                                }`}>
                                   {tx.category}
                                 </span>
-                                <p className="text-xs text-zinc-200 font-bold mt-1.5">{tx.notes}</p>
-                                <div className="flex items-center gap-1.5 text-[10px] text-zinc-550 mt-1">
-                                  <Calendar className="w-3 h-3 text-zinc-650" />
+                                <p className={`text-xs font-bold mt-1.5 ${theme === 'dark' ? 'text-zinc-200' : 'text-zinc-700'}`}>{tx.notes}</p>
+                                <div className={`flex items-center gap-1.5 text-[10px] mt-1 ${theme === 'dark' ? 'text-zinc-550' : 'text-zinc-400'}`}>
+                                  <Calendar className="w-3 h-3 text-zinc-500" />
                                   <span>{new Date(tx.timestamp).toLocaleString()}</span>
                                 </div>
                               </div>
@@ -2718,18 +2848,24 @@ export default function App() {
 
                             <div className="flex items-center gap-4 shrink-0 justify-end">
                               <div className="text-right">
-                                <span className={`text-base font-black font-semibold font-mono ${
-                                  tx.type === TransactionType.CREDIT ? 'text-emerald-400' : 'text-rose-450'
+                                <span className={`text-base font-black font-mono ${
+                                  tx.type === TransactionType.CREDIT 
+                                    ? theme === 'dark' ? 'text-emerald-400' : 'text-emerald-600'
+                                    : theme === 'dark' ? 'text-rose-450' : 'text-rose-600'
                                 }`}>
                                   {tx.type === TransactionType.CREDIT ? '+' : '-'} ₹{tx.amount.toLocaleString('en-IN')}
                                 </span>
-                                <span className="text-[8px] font-mono uppercase text-zinc-550 block mt-0.5">Confirmed Status</span>
+                                <span className="text-[8px] font-mono uppercase text-zinc-500 block mt-0.5">Confirmed Status</span>
                               </div>
 
                               <button
                                 id={`person-row-delete-btn-${tx.id}`}
                                 onClick={() => deleteTransaction(tx.id)}
-                                className="p-2 hover:bg-rose-950/20 text-zinc-650 hover:text-rose-400 rounded-xl transition-all cursor-pointer"
+                                className={`p-2 rounded-xl transition-all cursor-pointer ${
+                                  theme === 'dark' 
+                                    ? 'hover:bg-rose-955/20 text-zinc-600 hover:text-rose-400' 
+                                    : 'hover:bg-rose-50 text-zinc-400 hover:text-rose-650'
+                                }`}
                                 title="Delete this transaction entry"
                               >
                                 <Trash2 className="w-4 h-4" />

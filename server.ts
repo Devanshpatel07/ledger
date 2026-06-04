@@ -280,9 +280,16 @@ app.post("/api/scan-paper-ledger", async (req, res) => {
 Analyze the provided image of a receipt, handwritten log, invoice, statement, or transaction diary page.
 Scan and extract all readable financial transactions from it.
 
+We fully support and excel at reading Hindi bills, bilingual (Hindi-English) receipt printouts, Devanagari script, handwritten logs, or bilingual Hinglish logs. 
+- Map currency/amount correctly, even if written with symbols like ₹, Rs., INR, or Devanagari numerals (१, २, ३) into standard numbers.
+- Understand common Hindi billing vocabulary such as 'विवरण' (description), 'नाम' (name), 'राशि' / 'मूल्य' (amount/price), 'भुगतान' (paid), 'प्राप्त' / 'जमा' (received/credited), 'देय' (payable), 'कुल' (total), 'नकद' (cash), 'उधार' (credit/lent), 'खाता' (ledger), 'किराया' (rent), 'सब्जी'/'राशन' (groceries), 'यात्रा' (travel), 'दवा' (medical), etc.
+- Type MUST be 'Credit' if keywords signifying receiving/inflow/gaining (e.g., प्राप्त, आया, जमा, मिला, got, received, repayment from) are detected.
+- Type MUST be 'Debit' if keywords of spending/payment/outflow/debt (e.g., भुगतान, खर्च, दिया, चुकाया, paid, spent, expense, purchase, lent to) are detected.
+- Notes should summarize the transaction clearly (you may translate Hindi item names/reasons into clear English notes e.g., 'Groceries bought' instead of 'सब्जी', or keep key words transliterated so they remain deeply recognizable to the user).
+
 For each transaction, extract:
-1. Amount ('amount'): High precision index numbers representing the cost or volume. MUST be a positive number.
-2. Type ('type'): Must be exactly 'Credit' (money entry came in: salary, received, got, capital, borrowed, cash-in) or 'Debit' (money spent: paid, dinner, expenses, bills, purchase, lent).
+1. Amount ('amount'): High precision numbers representing the cost or value. MUST be a positive number.
+2. Type ('type'): Must be exactly 'Credit' (money entry came in) or 'Debit' (money spent/lent out).
 3. Party ('party'): Recipient or sender business name, person name, or entity. If none can be clearly seen or discerned, default to 'Self'.
 4. Category ('category'): Must be exactly one of: 'Dining', 'Groceries', 'Rent', 'Salary', 'Utilities', 'Shopping', 'Travel', 'Entertainment', 'Medical', 'Gifts', 'Investment', 'Other'. Map to the closest matching option based on the vendor or purchase type.
 5. Notes ('notes'): A descriptive text sum-up of what is seen on the paper for this entry (e.g. details, items bought, or purpose).
